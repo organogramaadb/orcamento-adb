@@ -1,0 +1,188 @@
+/* =============================================
+   ESTILOS CUSTOMIZADOS — Orçamento ADB
+   ============================================= */
+
+* { font-family: 'Inter', sans-serif; }
+
+/* ---- Navegação lateral ---- */
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: #d1d5db;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-link:hover { background: #374151; color: #fff; }
+.nav-link.active { background: #E63329; color: #fff; }
+.nav-link.nav-secondary {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  padding: 6px 12px;
+}
+.nav-link.nav-secondary:hover { background: #374151; color: #fbbf24; }
+.nav-icon { font-size: 1rem; width: 20px; text-align: center; }
+
+/* ---- Telas ---- */
+.screen { min-height: calc(100vh - 60px); }
+
+/* ---- Cards ---- */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  padding: 20px;
+}
+.card-title { font-size: 0.95rem; font-weight: 600; color: #111827; }
+
+/* ---- KPI cards ---- */
+.kpi-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  padding: 16px 20px;
+}
+.kpi-label { font-size: 0.75rem; color: #6b7280; margin-bottom: 4px; }
+.kpi-value { font-size: 1.4rem; font-weight: 700; color: #111827; }
+
+/* ---- Formulários ---- */
+.form-label { display: block; font-size: 0.8rem; font-weight: 500; color: #374151; margin-bottom: 4px; }
+.form-input, .form-select {
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 0.875rem;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.form-input:focus, .form-select:focus { border-color: #E63329; box-shadow: 0 0 0 2px rgba(230,51,41,0.15); }
+.form-select { background: #fff; cursor: pointer; }
+
+/* ---- Botões ---- */
+.btn-primary {
+  background: #E63329;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover { background: #c72a21; }
+.btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover { background: #e5e7eb; }
+.btn-danger {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.btn-success {
+  background: #d1fae5;
+  color: #065f46;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+/* ---- Filtro rápido ---- */
+.filter-select {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  color: #374151;
+  background: #fff;
+  cursor: pointer;
+}
+
+/* ---- Tabela drill-down ---- */
+.drill-row-l1 { background: #f8fafc; font-weight: 600; }
+.drill-row-l2 { background: #fff; }
+.drill-row-l3 { background: #fff; }
+.drill-row-l3 td:first-child { padding-left: 2.5rem; }
+.drill-row-l2 td:first-child { padding-left: 1.25rem; }
+.drill-toggle { cursor: pointer; user-select: none; font-size: 0.75rem; color: #6b7280; }
+
+/* ---- Alerta de uso ---- */
+.uso-verde  { color: #059669; font-weight: 600; }
+.uso-amarelo { color: #d97706; font-weight: 600; }
+.uso-vermelho { color: #dc2626; font-weight: 600; }
+.row-alerta-amarelo td { background: #fffbeb !important; }
+.row-alerta-vermelho td { background: #fef2f2 !important; }
+
+/* ---- Badge status ---- */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.badge-pendente { background: #fef3c7; color: #92400e; }
+.badge-aprovada { background: #d1fae5; color: #065f46; }
+.badge-rejeitada { background: #fee2e2; color: #991b1b; }
+.badge-master    { background: #E63329; color: #fff; }
+.badge-diretoria { background: #3b82f6; color: #fff; }
+.badge-gestor    { background: #6b7280; color: #fff; }
+
+/* ---- Projeção tabela ---- */
+#proj-table th, #proj-table td {
+  padding: 6px 10px;
+  white-space: nowrap;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 0.8rem;
+}
+#proj-table th { background: #f8fafc; font-weight: 600; color: #374151; }
+.proj-historico { color: #111827; }
+.proj-futuro    { color: #6b7280; font-style: italic; }
+.proj-ano2      { color: #2563eb; }
+
+/* ---- Print / PDF ---- */
+@media print {
+  #sidebar, header, .btn-secondary, .btn-primary,
+  #banner-trava, .filter-select, select, button { display: none !important; }
+  .screen { padding: 0 !important; }
+  .card { box-shadow: none !important; border: 1px solid #e5e7eb; }
+}
+
+/* ---- Toast ---- */
+#toast-inner.success { background: #059669; }
+#toast-inner.error   { background: #dc2626; }
+#toast-inner.info    { background: #2563eb; }
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+
+/* ---- Aprovação card ---- */
+.aprovacao-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.aprovacao-card:hover { border-color: #E63329; }

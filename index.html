@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orçamento — Amigos do Bem</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-50 font-inter">
+
+<!-- ===================== TELA DE LOGIN ===================== -->
+<div id="screen-login" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-700 to-red-900">
+  <div class="bg-white rounded-2xl shadow-2xl p-10 w-full max-w-md">
+    <div class="text-center mb-8">
+      <img src="assets/logo_adb.png" alt="Amigos do Bem" class="h-16 mx-auto mb-4" onerror="this.style.display='none'">
+      <h1 class="text-2xl font-bold text-gray-800">Controle Orçamentário</h1>
+      <p class="text-gray-500 text-sm mt-1">Amigos do Bem</p>
+    </div>
+    <div id="login-form">
+      <label class="block text-sm font-medium text-gray-700 mb-1">E-mail corporativo</label>
+      <input id="login-email" type="email" placeholder="seu@amigosdobem.org"
+        class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 mb-4">
+      <button id="btn-login" onclick="App.login()"
+        class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition">
+        Enviar link de acesso
+      </button>
+      <div id="login-msg" class="mt-4 text-sm text-center text-gray-500 hidden"></div>
+    </div>
+    <div id="login-sent" class="hidden text-center">
+      <div class="text-5xl mb-4">📧</div>
+      <p class="text-gray-700 font-medium">Link enviado!</p>
+      <p class="text-gray-500 text-sm mt-2">Verifique seu e-mail e clique no link para acessar o sistema.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== APP PRINCIPAL ===================== -->
+<div id="screen-app" class="hidden flex h-screen overflow-hidden">
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar" class="w-64 bg-gray-800 text-white flex flex-col flex-shrink-0 overflow-y-auto">
+    <div class="p-5 border-b border-gray-700">
+      <img src="assets/logo_adb.png" alt="ADB" class="h-10 mb-3" onerror="this.style.display='none'">
+      <div id="user-info">
+        <p class="text-sm font-semibold text-white" id="user-name">---</p>
+        <p class="text-xs text-gray-400" id="user-cc">---</p>
+        <span class="inline-block mt-1 text-xs px-2 py-0.5 rounded-full bg-red-600" id="user-nivel">---</span>
+      </div>
+      <p class="text-xs text-yellow-400 mt-2 font-medium" id="exercicio-label">Orçamento 2025</p>
+    </div>
+
+    <nav class="flex-1 p-3 space-y-1">
+      <a href="#dashboard"     class="nav-link" data-screen="dashboard">
+        <span class="nav-icon">📊</span> Dashboard
+      </a>
+      <a href="#input"         class="nav-link" data-screen="input">
+        <span class="nav-icon">✏️</span> Input Orçamentário
+      </a>
+      <a href="#realizado"     class="nav-link" data-screen="realizado">
+        <span class="nav-icon">📥</span> Lançar Realizado
+      </a>
+      <a href="#apresentacao"  class="nav-link" data-screen="apresentacao">
+        <span class="nav-icon">📈</span> Apresentação
+      </a>
+      <a href="#projecoes"     class="nav-link" data-screen="projecoes">
+        <span class="nav-icon">🔮</span> Projeções
+      </a>
+
+      <div class="border-t border-gray-700 my-2 pt-2">
+        <p class="text-xs text-gray-500 uppercase px-3 mb-1">Ações</p>
+        <a href="#revisao"     class="nav-link nav-secondary" data-screen="revisao">
+          <span class="nav-icon">📝</span> Solicitar Revisão
+        </a>
+        <a href="#minhas-sol"  class="nav-link nav-secondary" data-screen="minhas-sol">
+          <span class="nav-icon">📋</span> Minhas Solicitações
+        </a>
+      </div>
+
+      <div id="admin-menu" class="border-t border-gray-700 my-2 pt-2 hidden">
+        <p class="text-xs text-gray-500 uppercase px-3 mb-1">Admin</p>
+        <a href="#aprovacoes"  class="nav-link" data-screen="aprovacoes">
+          <span class="nav-icon">✅</span> Aprovações
+        </a>
+        <a href="#usuarios"    class="nav-link" data-screen="usuarios">
+          <span class="nav-icon">👥</span> Usuários
+        </a>
+        <a href="#configuracoes" class="nav-link" data-screen="configuracoes">
+          <span class="nav-icon">⚙️</span> Configurações
+        </a>
+      </div>
+    </nav>
+
+    <div class="p-3 border-t border-gray-700">
+      <button onclick="App.logout()" class="w-full text-left text-xs text-gray-400 hover:text-white px-3 py-2 rounded">
+        🚪 Sair
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="flex-1 overflow-y-auto">
+
+    <!-- TOPO -->
+    <header class="bg-white shadow-sm px-6 py-3 flex items-center justify-between sticky top-0 z-10">
+      <div class="flex items-center gap-3">
+        <button id="btn-hamburger" class="lg:hidden text-gray-500" onclick="App.toggleSidebar()">☰</button>
+        <h2 id="page-title" class="text-lg font-semibold text-gray-800">Dashboard</h2>
+      </div>
+      <div class="flex items-center gap-2">
+        <select id="sel-exercicio" onchange="App.changeExercicio(this.value)"
+          class="text-sm border border-gray-300 rounded px-2 py-1">
+          <option value="2024">2024</option>
+          <option value="2025" selected>2025</option>
+          <option value="2026">2026</option>
+        </select>
+      </div>
+    </header>
+
+    <!-- BANNER TRAVA EDIÇÃO -->
+    <div id="banner-trava" class="hidden bg-red-50 border-b border-red-200 px-6 py-2 text-sm text-red-700">
+      ⛔ Período de edição encerrado. Somente o Administrador pode alterar o orçamento.
+    </div>
+
+    <!-- ===== SCREENS ===== -->
+
+    <!-- DASHBOARD -->
+    <div id="screen-dashboard" class="screen p-6">
+      <div class="flex flex-wrap gap-3 mb-5 items-center">
+        <select id="dash-mes" onchange="App.Dash.load()" class="filter-select">
+          <option value="0">Acumulado (Jan–hoje)</option>
+          <option value="1">Janeiro</option><option value="2">Fevereiro</option>
+          <option value="3">Março</option><option value="4">Abril</option>
+          <option value="5">Maio</option><option value="6">Junho</option>
+          <option value="7">Julho</option><option value="8">Agosto</option>
+          <option value="9">Setembro</option><option value="10">Outubro</option>
+          <option value="11">Novembro</option><option value="12">Dezembro</option>
+        </select>
+        <select id="dash-pilar" onchange="App.Dash.load()" class="filter-select hidden">
+          <option value="">Todos os Pilares</option>
+          <option value="ADMINISTRAÇÃO">Administração</option>
+          <option value="PROGRAMAS SOCIAIS">Programas Sociais</option>
+        </select>
+      </div>
+
+      <!-- KPIs -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="kpi-card"><p class="kpi-label">Total Orçado</p><p id="kpi-orcado" class="kpi-value">R$ 0</p></div>
+        <div class="kpi-card"><p class="kpi-label">Total Realizado</p><p id="kpi-realizado" class="kpi-value">R$ 0</p></div>
+        <div class="kpi-card"><p class="kpi-label">% de Uso</p><p id="kpi-uso" class="kpi-value text-green-600">0%</p></div>
+        <div class="kpi-card"><p class="kpi-label">Saldo Disponível</p><p id="kpi-saldo" class="kpi-value">R$ 0</p></div>
+      </div>
+
+      <!-- Drill-down table -->
+      <div class="card mb-6">
+        <h3 class="card-title mb-3">Acompanhamento por Centro de Custo</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-gray-500 border-b">
+                <th class="pb-2 font-medium w-8"></th>
+                <th class="pb-2 font-medium">Centro / Grupo</th>
+                <th class="pb-2 font-medium text-right">Orçado</th>
+                <th class="pb-2 font-medium text-right">Realizado</th>
+                <th class="pb-2 font-medium text-right">% Uso</th>
+                <th class="pb-2 font-medium text-right">Saldo</th>
+              </tr>
+            </thead>
+            <tbody id="dash-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Gráfico mensal -->
+      <div class="card">
+        <h3 class="card-title mb-3">Orçado vs Realizado por Mês</h3>
+        <canvas id="chart-dash" height="100"></canvas>
+      </div>
+    </div>
+
+    <!-- INPUT ORÇAMENTÁRIO -->
+    <div id="screen-input" class="screen p-6 hidden">
+      <div class="card mb-5">
+        <h3 class="card-title mb-4">Filtros</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label class="form-label">Centro de Custo</label>
+            <select id="inp-cc" class="form-select" onchange="App.Input.loadTable()"></select>
+          </div>
+          <div>
+            <label class="form-label">Natureza (conta)</label>
+            <select id="inp-nat" class="form-select" onchange="App.Input.loadTable()"></select>
+          </div>
+          <div>
+            <label class="form-label">Aplicação (opcional)</label>
+            <select id="inp-apl" class="form-select" onchange="App.Input.loadTable()">
+              <option value="">— Nenhuma —</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex gap-3 mt-4">
+          <button onclick="App.Input.saveAll()" class="btn-primary">💾 Salvar Todos</button>
+          <button onclick="App.Input.importAnterior()" class="btn-secondary">📂 Importar Exercício Anterior</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-gray-500 border-b">
+                <th class="pb-2 font-medium">Mês</th>
+                <th class="pb-2 font-medium text-right">Valor Planejado (R$)</th>
+                <th class="pb-2 font-medium">Observação</th>
+              </tr>
+            </thead>
+            <tbody id="inp-table-body"></tbody>
+            <tfoot>
+              <tr class="border-t font-semibold">
+                <td class="pt-2">Total</td>
+                <td class="pt-2 text-right" id="inp-total">R$ 0,00</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- LANÇAR REALIZADO -->
+    <div id="screen-realizado" class="screen p-6 hidden">
+      <div class="card mb-5">
+        <h3 class="card-title mb-4">Filtros</h3>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div>
+            <label class="form-label">Centro de Custo</label>
+            <select id="real-cc" class="form-select" onchange="App.Realizado.loadTable()"></select>
+          </div>
+          <div>
+            <label class="form-label">Natureza</label>
+            <select id="real-nat" class="form-select" onchange="App.Realizado.loadTable()"></select>
+          </div>
+          <div>
+            <label class="form-label">Aplicação (opcional)</label>
+            <select id="real-apl" class="form-select">
+              <option value="">— Nenhuma —</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Mês</label>
+            <select id="real-mes" class="form-select">
+              <option value="1">Janeiro</option><option value="2">Fevereiro</option>
+              <option value="3">Março</option><option value="4">Abril</option>
+              <option value="5">Maio</option><option value="6">Junho</option>
+              <option value="7">Julho</option><option value="8">Agosto</option>
+              <option value="9">Setembro</option><option value="10">Outubro</option>
+              <option value="11">Novembro</option><option value="12">Dezembro</option>
+            </select>
+          </div>
+        </div>
+        <button onclick="App.Realizado.saveAll()" class="btn-primary mt-4">💾 Salvar Lançamento</button>
+      </div>
+
+      <div class="card">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-left text-gray-500 border-b">
+              <th class="pb-2 font-medium">Valor Realizado (R$)</th>
+              <th class="pb-2 font-medium">Documento</th>
+              <th class="pb-2 font-medium">Descrição</th>
+            </tr>
+          </thead>
+          <tbody id="real-table-body">
+            <tr>
+              <td><input type="number" id="real-valor" class="form-input w-40" step="0.01" placeholder="0,00"></td>
+              <td><input type="text"   id="real-doc"   class="form-input w-32" placeholder="NF-123"></td>
+              <td><input type="text"   id="real-desc"  class="form-input w-64" placeholder="Descrição"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- APRESENTAÇÃO -->
+    <div id="screen-apresentacao" class="screen p-6 hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="card">
+          <h3 class="card-title mb-3">Distribuição Orçada por Pilar</h3>
+          <canvas id="chart-pizza" height="200"></canvas>
+        </div>
+        <div class="card">
+          <h3 class="card-title mb-3">Evolução Mensal — Orçado vs Realizado</h3>
+          <canvas id="chart-linha" height="200"></canvas>
+        </div>
+      </div>
+
+      <div class="card mb-6">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="card-title">Resumo por Pilar</h3>
+          <button onclick="window.print()" class="btn-secondary text-xs">🖨️ Exportar PDF</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-gray-500 border-b">
+                <th class="pb-2 font-medium">Pilar</th>
+                <th class="pb-2 font-medium text-right">Orçado Anual</th>
+                <th class="pb-2 font-medium text-right">Realizado</th>
+                <th class="pb-2 font-medium text-right">% Executado</th>
+                <th class="pb-2 font-medium text-right">Projeção Encerramento</th>
+              </tr>
+            </thead>
+            <tbody id="apres-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title mb-3">Top 5 — Maior Desvio (Realizado &gt; Orçado)</h3>
+        <div id="top5-body"></div>
+      </div>
+    </div>
+
+    <!-- PROJEÇÕES -->
+    <div id="screen-projecoes" class="screen p-6 hidden">
+      <div class="card mb-5">
+        <div class="flex flex-wrap gap-4 items-end">
+          <div>
+            <label class="form-label">Centro de Custo</label>
+            <select id="proj-cc" class="form-select" onchange="App.Projecoes.calcular()"></select>
+          </div>
+          <div>
+            <label class="form-label">% Ajuste Ano 2 (crescimento)</label>
+            <input id="proj-ajuste" type="number" value="5" step="0.1"
+              class="form-input w-24" onchange="App.Projecoes.calcular()">
+          </div>
+          <button onclick="App.Projecoes.exportCsv()" class="btn-secondary">📥 Exportar CSV</button>
+        </div>
+      </div>
+      <div class="card mb-5 overflow-x-auto">
+        <table class="text-sm" id="proj-table" style="min-width:1200px">
+          <thead id="proj-thead"></thead>
+          <tbody id="proj-tbody"></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3 class="card-title mb-3">Projeção Gráfica — 24 Meses</h3>
+        <canvas id="chart-proj" height="120"></canvas>
+      </div>
+    </div>
+
+    <!-- SOLICITAR REVISÃO -->
+    <div id="screen-revisao" class="screen p-6 hidden">
+      <div class="card max-w-2xl">
+        <h3 class="card-title mb-5">Solicitar Revisão Orçamentária</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="form-label">Centro de Custo</label>
+            <select id="rev-cc" class="form-select"></select>
+          </div>
+          <div>
+            <label class="form-label">Natureza</label>
+            <select id="rev-nat" class="form-select"></select>
+          </div>
+          <div>
+            <label class="form-label">Aplicação (opcional)</label>
+            <select id="rev-apl" class="form-select"><option value="">— Nenhuma —</option></select>
+          </div>
+          <div>
+            <label class="form-label">Mês</label>
+            <select id="rev-mes" class="form-select">
+              <option value="1">Janeiro</option><option value="2">Fevereiro</option>
+              <option value="3">Março</option><option value="4">Abril</option>
+              <option value="5">Maio</option><option value="6">Junho</option>
+              <option value="7">Julho</option><option value="8">Agosto</option>
+              <option value="9">Setembro</option><option value="10">Outubro</option>
+              <option value="11">Novembro</option><option value="12">Dezembro</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Valor Atual (R$)</label>
+            <input id="rev-atual" type="number" class="form-input" readonly placeholder="Buscado automaticamente">
+          </div>
+          <div>
+            <label class="form-label">Valor Solicitado (R$)</label>
+            <input id="rev-solicitado" type="number" class="form-input" step="0.01" placeholder="Novo valor">
+          </div>
+        </div>
+        <div class="mb-4">
+          <label class="form-label">Justificativa (mínimo 50 caracteres)</label>
+          <textarea id="rev-justificativa" rows="4" class="form-input w-full"
+            placeholder="Descreva o motivo da revisão solicitada..."></textarea>
+          <p id="rev-char-count" class="text-xs text-gray-400 mt-1">0 / mínimo 50 caracteres</p>
+        </div>
+        <button onclick="App.Revisao.enviar()" class="btn-primary">📤 Enviar Solicitação</button>
+      </div>
+    </div>
+
+    <!-- MINHAS SOLICITAÇÕES -->
+    <div id="screen-minhas-sol" class="screen p-6 hidden">
+      <div class="card">
+        <h3 class="card-title mb-4">Minhas Solicitações de Revisão</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-gray-500 border-b">
+                <th class="pb-2 font-medium">Data</th>
+                <th class="pb-2 font-medium">CC / Natureza</th>
+                <th class="pb-2 font-medium text-right">Valor Atual</th>
+                <th class="pb-2 font-medium text-right">Solicitado</th>
+                <th class="pb-2 font-medium">Status</th>
+                <th class="pb-2 font-medium">Resposta</th>
+              </tr>
+            </thead>
+            <tbody id="minhassol-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- APROVAÇÕES (MASTER) -->
+    <div id="screen-aprovacoes" class="screen p-6 hidden">
+      <div class="card">
+        <h3 class="card-title mb-4">Solicitações Pendentes de Aprovação</h3>
+        <div id="aprovacoes-body"></div>
+      </div>
+    </div>
+
+    <!-- GESTÃO DE USUÁRIOS (MASTER) -->
+    <div id="screen-usuarios" class="screen p-6 hidden">
+      <div class="card mb-5">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="card-title">Usuários Cadastrados</h3>
+          <button onclick="App.Usuarios.openForm()" class="btn-primary">+ Novo Usuário</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-gray-500 border-b">
+                <th class="pb-2 font-medium">Nome</th>
+                <th class="pb-2 font-medium">E-mail</th>
+                <th class="pb-2 font-medium">Nível</th>
+                <th class="pb-2 font-medium">Centro de Custo</th>
+                <th class="pb-2 font-medium">Status</th>
+                <th class="pb-2 font-medium">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="usuarios-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Form novo/editar usuário -->
+      <div id="usuario-form-card" class="card max-w-lg hidden">
+        <h3 class="card-title mb-4" id="usuario-form-title">Novo Usuário</h3>
+        <input type="hidden" id="usu-id">
+        <div class="space-y-3">
+          <div>
+            <label class="form-label">Nome</label>
+            <input id="usu-nome" type="text" class="form-input w-full">
+          </div>
+          <div>
+            <label class="form-label">E-mail</label>
+            <input id="usu-email" type="email" class="form-input w-full">
+          </div>
+          <div>
+            <label class="form-label">Nível de Acesso</label>
+            <select id="usu-nivel" class="form-select w-full" onchange="App.Usuarios.toggleCCField()">
+              <option value="MASTER">MASTER</option>
+              <option value="DIRETORIA">DIRETORIA</option>
+              <option value="GESTOR">GESTOR</option>
+            </select>
+          </div>
+          <div id="usu-cc-field">
+            <label class="form-label">Centro de Custo</label>
+            <select id="usu-cc" class="form-select w-full"></select>
+          </div>
+          <div id="usu-dir-field" class="hidden">
+            <label class="form-label">Diretoria</label>
+            <input id="usu-dir" type="text" class="form-input w-full" placeholder="ex: Fernando Medeiros">
+          </div>
+          <div class="flex gap-3 pt-2">
+            <button onclick="App.Usuarios.save()" class="btn-primary">Salvar</button>
+            <button onclick="App.Usuarios.closeForm()" class="btn-secondary">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONFIGURAÇÕES (MASTER) -->
+    <div id="screen-configuracoes" class="screen p-6 hidden">
+      <div class="card max-w-md">
+        <h3 class="card-title mb-5">Configurações do Sistema</h3>
+        <div class="space-y-4">
+          <div>
+            <label class="form-label">Exercício Atual</label>
+            <input id="cfg-exercicio" type="number" class="form-input w-full" value="2025">
+          </div>
+          <div>
+            <label class="form-label">Data Limite de Edição</label>
+            <input id="cfg-data-limite" type="date" class="form-input w-full">
+            <p class="text-xs text-gray-400 mt-1">Após esta data, gestores não poderão editar o orçamento.</p>
+          </div>
+          <div>
+            <label class="form-label">% Alerta Amarelo</label>
+            <input id="cfg-amarelo" type="number" class="form-input w-full" value="80" min="1" max="100">
+          </div>
+          <div>
+            <label class="form-label">% Alerta Vermelho</label>
+            <input id="cfg-vermelho" type="number" class="form-input w-full" value="100" min="1" max="200">
+          </div>
+          <button onclick="App.Config.save()" class="btn-primary w-full">💾 Salvar Configurações</button>
+          <div id="cfg-msg" class="text-sm text-center text-green-600 hidden">Configurações salvas!</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- MODAL DETALHE CC -->
+<div id="modal-cc" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-screen overflow-y-auto">
+    <div class="p-5 border-b flex justify-between items-center">
+      <h3 id="modal-cc-title" class="font-semibold text-gray-800">Detalhe do Centro de Custo</h3>
+      <button onclick="App.Modal.close()" class="text-gray-400 hover:text-gray-600 text-xl">✕</button>
+    </div>
+    <div class="p-5">
+      <canvas id="chart-modal" height="150" class="mb-4"></canvas>
+      <div id="modal-cc-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="fixed bottom-6 right-6 hidden z-50 max-w-xs">
+  <div id="toast-inner" class="rounded-lg shadow-lg px-4 py-3 text-sm text-white"></div>
+</div>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
