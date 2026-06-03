@@ -1,11 +1,11 @@
 /* =============================================================
-   app.js �?" Sistema Orçamentário Amigos do Bem
+   app.js \ufffd?" Sistema Or\u00e7ament\u00e1rio Amigos do Bem
    ============================================================= */
 
-// �"?�"? Inicialização do Supabase �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
+// \ufffd"?\ufffd"? Inicializa\u00e7\u00e3o do Supabase \ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// �"?�"? Estado global �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
+// \ufffd"?\ufffd"? Estado global \ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?
 const App = {
   state: {
     user: null,
@@ -20,7 +20,7 @@ const App = {
     aplicacoes: [],
   },
 
-  // �"?�"? Inicializar �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
+  // \ufffd"?\ufffd"? Inicializar \ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?
   async init() {
     const { data: { session } } = await sb.auth.getSession();
     if (session?.user) {
@@ -39,7 +39,7 @@ const App = {
   },
 
   async setupUser(user) {
-    // Vincula auth_user_id se necessário
+    // Vincula auth_user_id se necess\u00e1rio
     await sb.from('usuarios_responsaveis')
       .update({ auth_user_id: user.id })
       .eq('email', user.email)
@@ -52,7 +52,7 @@ const App = {
       .single();
 
     if (!perfil) {
-      App.toast('E-mail não cadastrado. Solicite acesso ao administrador.', 'error');
+      App.toast('E-mail n\u00e3o cadastrado. Solicite acesso ao administrador.', 'error');
       await sb.auth.signOut();
       return;
     }
@@ -92,14 +92,14 @@ const App = {
     document.getElementById('user-name').textContent  = p.nome || p.email;
     document.getElementById('user-cc').textContent    = p.centros_custo?.nome || (p.nivel_acesso !== 'GESTOR' ? 'Acesso Total' : '');
     document.getElementById('user-nivel').textContent = p.nivel_acesso;
-    document.getElementById('exercicio-label').textContent = `Orçamento ${App.state.exercicio}`;
+    document.getElementById('exercicio-label').textContent = `Or\u00e7amento ${App.state.exercicio}`;
     document.getElementById('sel-exercicio').value = App.state.exercicio;
 
     if (p.nivel_acesso === 'MASTER') {
       document.getElementById('admin-menu').classList.remove('hidden');
     }
 
-    // Banner de trava de edição
+    // Banner de trava de edi\u00e7\u00e3o
     const cfg = App.state.config;
     if (cfg?.data_limite_edicao && p.nivel_acesso !== 'MASTER') {
       const limite = new Date(cfg.data_limite_edicao + 'T00:00:00');
@@ -114,7 +114,7 @@ const App = {
     }
   },
 
-  // �"?�"? Roteamento �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
+  // \ufffd"?\ufffd"? Roteamento \ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?
   route() {
     const hash = window.location.hash.replace('#', '') || 'dashboard';
     const screens = document.querySelectorAll('.screen');
@@ -128,11 +128,11 @@ const App = {
     });
 
     const titles = {
-      'dashboard': 'Dashboard', 'input': 'Input Orçamentário',
-      'realizado': 'Lançar Realizado', 'apresentacao': 'Apresentação',
-      'projecoes': 'Projeções (24 meses)', 'revisao': 'Solicitar Revisão',
-      'minhas-sol': 'Minhas Solicitações', 'aprovacoes': 'Aprovações de Revisão',
-      'usuarios': 'Gestão de Usuários', 'configuracoes': 'Configurações',
+      'dashboard': 'Dashboard', 'input': 'Input Or\u00e7ament\u00e1rio',
+      'realizado': 'Lan\u00e7ar Realizado', 'apresentacao': 'Apresenta\u00e7\u00e3o',
+      'projecoes': 'Proje\u00e7\u00f5es (24 meses)', 'revisao': 'Solicitar Revis\u00e3o',
+      'minhas-sol': 'Minhas Solicita\u00e7\u00f5es', 'aprovacoes': 'Aprova\u00e7\u00f5es de Revis\u00e3o',
+      'usuarios': 'Gest\u00e3o de Usu\u00e1rios', 'configuracoes': 'Configura\u00e7\u00f5es',
     };
     document.getElementById('page-title').textContent = titles[hash] || hash;
 
@@ -160,7 +160,7 @@ const App = {
     document.getElementById('sidebar').classList.toggle('hidden');
   },
 
-  // �"?�"? Auth �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
+  // \ufffd"?\ufffd"? Auth \ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?
   async login() {
     const email = document.getElementById('login-email').value.trim();
     const senha = document.getElementById('login-senha').value;
@@ -193,7 +193,7 @@ const App = {
     await sb.auth.signOut();
   },
 
-  // �"?�"? Toast �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
+  // \ufffd"?\ufffd"? Toast \ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?
   toast(msg, type = 'info') {
     const t = document.getElementById('toast');
     const ti = document.getElementById('toast-inner');
@@ -203,7 +203,7 @@ const App = {
     setTimeout(() => t.classList.add('hidden'), 3500);
   },
 
-  // �"?�"? Helpers �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
+  // \ufffd"?\ufffd"? Helpers \ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?
   brl(v) {
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v || 0);
   },
@@ -226,7 +226,7 @@ const App = {
     return '';
   },
   meses: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
-  mesesFull: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+  mesesFull: ['Janeiro','Fevereiro','Mar\u00e7o','Abril','Maio','Junho',
               'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
 
   isEdicaoBloqueada() {
@@ -237,7 +237,7 @@ const App = {
     return new Date() > new Date(cfg.data_limite_edicao + 'T00:00:00');
   },
 
-  // �"?�"? Filtro de CCs por perfil �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
+  // \ufffd"?\ufffd"? Filtro de CCs por perfil \ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?\ufffd"?
   meusCCs() {
     const p = App.state.perfil;
     if (p.nivel_acesso === 'GESTOR') {
@@ -253,7 +253,7 @@ const App = {
     const sel = document.getElementById(selId);
     if (!sel) return;
     sel.innerHTML = '';
-    if (includeAll) sel.innerHTML = '<option value="">�?" Todos �?"</option>';
+    if (includeAll) sel.innerHTML = '<option value="">\ufffd?" Todos \ufffd?"</option>';
     App.meusCCs().forEach(c => {
       const o = document.createElement('option');
       o.value = c.id;
@@ -265,7 +265,7 @@ const App = {
   fillNatSelect(selId, tipo = null) {
     const sel = document.getElementById(selId);
     if (!sel) return;
-    sel.innerHTML = '<option value="">�?" Selecione �?"</option>';
+    sel.innerHTML = '<option value="">\ufffd?" Selecione \ufffd?"</option>';
     const contas = App.cache.naturezas.filter(n =>
       n.eh_conta && (!tipo || n.tipo === tipo)
     );
@@ -280,7 +280,7 @@ const App = {
   fillAplSelect(selId) {
     const sel = document.getElementById(selId);
     if (!sel) return;
-    const base = sel.querySelector('option[value=""]') ? '' : '<option value="">�?" Nenhuma �?"</option>';
+    const base = sel.querySelector('option[value=""]') ? '' : '<option value="">\ufffd?" Nenhuma \ufffd?"</option>';
     sel.innerHTML = base;
     App.cache.aplicacoes.forEach(a => {
       const o = document.createElement('option');
@@ -303,7 +303,7 @@ App.Dash = {
     const exercicio = App.state.exercicio;
     const p = App.state.perfil;
 
-    // Busca orçamentos e realizados do exercício
+    // Busca or\u00e7amentos e realizados do exerc\u00edcio
     let qOrc = sb.from('orcamentos').select('*, centros_custo(pilar,grupo,nome,diretoria,codigo)')
       .eq('exercicio', exercicio);
     let qReal = sb.from('realizado').select('*, centros_custo(pilar,grupo,nome,diretoria,codigo)')
@@ -361,7 +361,7 @@ App.Dash = {
     const tbody = document.getElementById('dash-table-body');
     tbody.innerHTML = '';
 
-    // Agrupa: pilar �?' grupo �?' cc
+    // Agrupa: pilar \ufffd?' grupo \ufffd?' cc
     const pilares = {};
     ccs.forEach(c => {
       if (!pilares[c.pilar]) pilares[c.pilar] = {};
@@ -378,7 +378,7 @@ App.Dash = {
       const trPilar = document.createElement('tr');
       trPilar.className = `drill-row-l1 ${App.usoRowCor(pPilar)}`;
       trPilar.innerHTML = `
-        <td class="py-2 px-2"><span class="drill-toggle" onclick="App.Dash.toggle('${pilarId}')">�-�</span></td>
+        <td class="py-2 px-2"><span class="drill-toggle" onclick="App.Dash.toggle('${pilarId}')">\ufffd-\ufffd</span></td>
         <td class="py-2 font-semibold text-gray-800">${pilar}</td>
         <td class="py-2 text-right text-gray-700">${App.brl(orcPilar)}</td>
         <td class="py-2 text-right text-gray-700">${App.brl(realPilar)}</td>
@@ -396,7 +396,7 @@ App.Dash = {
         const trG = document.createElement('tr');
         trG.className = `drill-row-l2 ${App.usoRowCor(pG)} drill-child-${pilarId} hidden`;
         trG.innerHTML = `
-          <td class="py-1.5 px-2 pl-5"><span class="drill-toggle" onclick="App.Dash.toggle('${grupoId}')">�-�</span></td>
+          <td class="py-1.5 px-2 pl-5"><span class="drill-toggle" onclick="App.Dash.toggle('${grupoId}')">\ufffd-\ufffd</span></td>
           <td class="py-1.5 text-gray-600 font-medium">${grupo}</td>
           <td class="py-1.5 text-right text-gray-600">${App.brl(orcG)}</td>
           <td class="py-1.5 text-right text-gray-600">${App.brl(realG)}</td>
@@ -429,9 +429,9 @@ App.Dash = {
   toggle(id) {
     const children = document.querySelectorAll(`.drill-child-${id}`);
     children.forEach(el => el.classList.toggle('hidden'));
-    // Atualiza ícone
+    // Atualiza \u00edcone
     const toggles = document.querySelectorAll(`[onclick="App.Dash.toggle('${id}')"]`);
-    toggles.forEach(t => { t.textContent = t.textContent === '�-�' ? '�-�' : '�-�'; });
+    toggles.forEach(t => { t.textContent = t.textContent === '\ufffd-\ufffd' ? '\ufffd-\ufffd' : '\ufffd-\ufffd'; });
   },
 
   async renderChart(exercicio, p) {
@@ -456,7 +456,7 @@ App.Dash = {
       data: {
         labels: App.meses,
         datasets: [
-          { label: 'Orçado',    data: orcByMes,  backgroundColor: '#E63329aa' },
+          { label: 'Or\u00e7ado',    data: orcByMes,  backgroundColor: '#E63329aa' },
           { label: 'Realizado', data: realByMes, backgroundColor: '#F5A623aa' },
         ],
       },
@@ -478,7 +478,7 @@ App.Dash = {
       sb.from('realizado').select('mes, valor_realizado, naturezas(descricao)').eq('exercicio', exercicio).eq('centro_custo_id', ccId),
     ]);
 
-    // Gráfico mensal
+    // Gr\u00e1fico mensal
     const orcByMes = Array(12).fill(0);
     const realByMes = Array(12).fill(0);
     (orcs || []).forEach(r => { orcByMes[r.mes - 1] += parseFloat(r.valor_planejado || 0); });
@@ -491,7 +491,7 @@ App.Dash = {
       data: {
         labels: App.meses,
         datasets: [
-          { label: 'Orçado',    data: orcByMes,  backgroundColor: '#E63329aa' },
+          { label: 'Or\u00e7ado',    data: orcByMes,  backgroundColor: '#E63329aa' },
           { label: 'Realizado', data: realByMes, backgroundColor: '#F5A623aa' },
         ],
       },
@@ -512,7 +512,7 @@ App.Dash = {
     });
 
     let html = `<table class="w-full text-sm"><thead><tr class="text-left text-gray-500 border-b">
-      <th class="pb-2">Natureza</th><th class="pb-2 text-right">Orçado</th>
+      <th class="pb-2">Natureza</th><th class="pb-2 text-right">Or\u00e7ado</th>
       <th class="pb-2 text-right">Realizado</th><th class="pb-2 text-right">% Uso</th></tr></thead><tbody>`;
     Object.entries(natMap).forEach(([k, v]) => {
       const pct = App.pctNum(v.real, v.orc);
@@ -533,7 +533,7 @@ App.Modal = {
 };
 
 // =============================================================
-// INPUT OR�?AMENTÁRIO
+// INPUT OR\ufffd?AMENT\u00c1RIO
 // =============================================================
 App.Input = {
   init() {
@@ -580,7 +580,7 @@ App.Input = {
         <td class="py-1.5">
           <input type="text" value="${obs}"
             class="form-input w-64 inp-obs" data-mes="${mes}" ${bloqueado ? 'disabled' : ''}
-            placeholder="Observação">
+            placeholder="Observa\u00e7\u00e3o">
         </td>
       `;
       tbody.appendChild(tr);
@@ -597,7 +597,7 @@ App.Input = {
   },
 
   async saveAll() {
-    if (App.isEdicaoBloqueada()) { App.toast('Edição encerrada.', 'error'); return; }
+    if (App.isEdicaoBloqueada()) { App.toast('Edi\u00e7\u00e3o encerrada.', 'error'); return; }
     const ccId  = parseInt(document.getElementById('inp-cc').value);
     const natId = parseInt(document.getElementById('inp-nat').value);
     const aplId = document.getElementById('inp-apl').value || null;
@@ -623,11 +623,11 @@ App.Input = {
       onConflict: 'exercicio,mes,centro_custo_id,natureza_id,aplicacao_id',
     });
     if (error) App.toast('Erro ao salvar: ' + error.message, 'error');
-    else App.toast('Orçamento salvo com sucesso!', 'success');
+    else App.toast('Or\u00e7amento salvo com sucesso!', 'success');
   },
 
   async importAnterior() {
-    if (App.isEdicaoBloqueada()) { App.toast('Edição encerrada.', 'error'); return; }
+    if (App.isEdicaoBloqueada()) { App.toast('Edi\u00e7\u00e3o encerrada.', 'error'); return; }
     const ccId  = parseInt(document.getElementById('inp-cc').value);
     const natId = parseInt(document.getElementById('inp-nat').value);
     const aplId = document.getElementById('inp-apl').value || null;
@@ -638,7 +638,7 @@ App.Input = {
       .eq('exercicio', exercicio - 1).eq('centro_custo_id', ccId).eq('natureza_id', natId);
     if (aplId) q = q.eq('aplicacao_id', aplId); else q = q.is('aplicacao_id', null);
     const { data } = await q;
-    if (!data?.length) { App.toast('Nenhum dado no exercício anterior.', 'info'); return; }
+    if (!data?.length) { App.toast('Nenhum dado no exerc\u00edcio anterior.', 'info'); return; }
 
     const rowMap = {};
     data.forEach(r => { rowMap[r.mes] = r.valor_planejado; });
@@ -647,19 +647,19 @@ App.Input = {
       if (rowMap[mes] !== undefined) v.value = rowMap[mes];
     });
     App.Input.updateTotal();
-    App.toast('Valores importados do exercício anterior.', 'info');
+    App.toast('Valores importados do exerc\u00edcio anterior.', 'info');
   },
 };
 
 // =============================================================
-// LAN�?AR REALIZADO
+// LAN\ufffd?AR REALIZADO
 // =============================================================
 App.Realizado = {
   init() {
     App.fillCCSelect('real-cc');
     App.fillNatSelect('real-nat');
     App.fillAplSelect('real-apl');
-    // Mês atual
+    // M\u00eas atual
     document.getElementById('real-mes').value = App.state.mes;
   },
 
@@ -683,7 +683,7 @@ App.Realizado = {
     });
     if (error) App.toast('Erro: ' + error.message, 'error');
     else {
-      App.toast('Lançamento registrado!', 'success');
+      App.toast('Lan\u00e7amento registrado!', 'success');
       document.getElementById('real-valor').value = '';
       document.getElementById('real-doc').value   = '';
       document.getElementById('real-desc').value  = '';
@@ -693,7 +693,7 @@ App.Realizado = {
 
 
 // =============================================================
-// APRESENTA�?�fO
+// APRESENTA\ufffd?\ufffdfO
 // =============================================================
 App.Apres = {
   chartPizza: null,
@@ -761,7 +761,7 @@ App.Apres = {
       data: {
         labels: App.meses,
         datasets: [
-          { label: 'Orçado',    data: orcByMes,  borderColor: '#E63329', fill: false, tension: 0.3 },
+          { label: 'Or\u00e7ado',    data: orcByMes,  borderColor: '#E63329', fill: false, tension: 0.3 },
           { label: 'Realizado', data: realByMes, borderColor: '#F5A623', fill: false, tension: 0.3 },
         ],
       },
@@ -815,7 +815,7 @@ App.Apres = {
 };
 
 // =============================================================
-// PROJE�?�.ES
+// PROJE\ufffd?\ufffd.ES
 // =============================================================
 App.Projecoes = {
   chartInst: null,
@@ -842,7 +842,7 @@ App.Projecoes = {
     (orcs || []).forEach(r => { orcByMes[r.mes - 1] += parseFloat(r.valor_planejado || 0); });
     (reals || []).forEach(r => { realByMes[r.mes - 1] += parseFloat(r.valor_realizado || 0); });
 
-    // Calcula média dos últimos 3 meses com realizado
+    // Calcula m\u00e9dia dos \u00faltimos 3 meses com realizado
     const ultimos3 = realByMes.slice(Math.max(0, mesAtual - 3), mesAtual).filter(v => v > 0);
     const media3 = ultimos3.length ? ultimos3.reduce((a,b)=>a+b,0)/ultimos3.length : 0;
 
@@ -861,12 +861,12 @@ App.Projecoes = {
       if (i < 12) {
         // Ano 1
         if (i < mesAtual - 1) {
-          // Passou �?" usa realizado
+          // Passou \ufffd?" usa realizado
           proj1.push(realByMes[mesIdx]);
           realHist.push(realByMes[mesIdx]);
           orcHist.push(orcByMes[mesIdx]);
         } else {
-          // Futuro �?" usa orçado ou média
+          // Futuro \ufffd?" usa or\u00e7ado ou m\u00e9dia
           const v = orcByMes[mesIdx] > 0 ? orcByMes[mesIdx] : media3;
           proj1.push(v);
           realHist.push(null);
@@ -874,7 +874,7 @@ App.Projecoes = {
         }
         proj2.push(null);
       } else {
-        // Ano 2 �?" usa orçado do mesmo mês * (1 + ajuste)
+        // Ano 2 \ufffd?" usa or\u00e7ado do mesmo m\u00eas * (1 + ajuste)
         const baseVal = orcByMes[mesIdx] > 0 ? orcByMes[mesIdx] : media3;
         proj2.push(parseFloat((baseVal * (1 + ajuste)).toFixed(2)));
         proj1.push(null);
@@ -886,8 +886,8 @@ App.Projecoes = {
     // Tabela
     const thead = document.getElementById('proj-thead');
     const tbody = document.getElementById('proj-tbody');
-    thead.innerHTML = `<tr><th class="text-left sticky left-0 bg-gray-50">Período</th>
-      <th>Orçado</th><th>Realizado</th><th>Projeção Ano 1</th><th>Projeção Ano 2</th></tr>`;
+    thead.innerHTML = `<tr><th class="text-left sticky left-0 bg-gray-50">Per\u00edodo</th>
+      <th>Or\u00e7ado</th><th>Realizado</th><th>Proje\u00e7\u00e3o Ano 1</th><th>Proje\u00e7\u00e3o Ano 2</th></tr>`;
     tbody.innerHTML = '';
     labels.forEach((l, i) => {
       const tr = document.createElement('tr');
@@ -895,15 +895,15 @@ App.Projecoes = {
       tr.className = isPassado ? 'proj-historico' : (i >= 12 ? 'proj-ano2' : 'proj-futuro');
       tr.innerHTML = `
         <td class="sticky left-0 bg-white font-medium">${l}</td>
-        <td class="text-right">${orcHist[i] != null ? App.brl(orcHist[i]) : '�?"'}</td>
-        <td class="text-right">${realHist[i] != null ? App.brl(realHist[i]) : '�?"'}</td>
-        <td class="text-right">${proj1[i] != null ? App.brl(proj1[i]) : '�?"'}</td>
-        <td class="text-right">${proj2[i] != null ? App.brl(proj2[i]) : '�?"'}</td>
+        <td class="text-right">${orcHist[i] != null ? App.brl(orcHist[i]) : '\ufffd?"'}</td>
+        <td class="text-right">${realHist[i] != null ? App.brl(realHist[i]) : '\ufffd?"'}</td>
+        <td class="text-right">${proj1[i] != null ? App.brl(proj1[i]) : '\ufffd?"'}</td>
+        <td class="text-right">${proj2[i] != null ? App.brl(proj2[i]) : '\ufffd?"'}</td>
       `;
       tbody.appendChild(tr);
     });
 
-    // Gráfico
+    // Gr\u00e1fico
     const ctx = document.getElementById('chart-proj').getContext('2d');
     if (App.Projecoes.chartInst) App.Projecoes.chartInst.destroy();
     App.Projecoes.chartInst = new Chart(ctx, {
@@ -911,10 +911,10 @@ App.Projecoes = {
       data: {
         labels,
         datasets: [
-          { label: 'Realizado Histórico', data: realHist, borderColor: '#F5A623', spanGaps: false, tension: 0.3 },
-          { label: 'Orçado',             data: orcHist,  borderColor: '#E63329', spanGaps: false, borderDash:[5,5], tension: 0.3 },
-          { label: 'Projeção Ano 1',     data: proj1,    borderColor: '#6b7280', spanGaps: false, tension: 0.3 },
-          { label: 'Projeção Ano 2',     data: proj2,    borderColor: '#2563eb', spanGaps: false, tension: 0.3 },
+          { label: 'Realizado Hist\u00f3rico', data: realHist, borderColor: '#F5A623', spanGaps: false, tension: 0.3 },
+          { label: 'Or\u00e7ado',             data: orcHist,  borderColor: '#E63329', spanGaps: false, borderDash:[5,5], tension: 0.3 },
+          { label: 'Proje\u00e7\u00e3o Ano 1',     data: proj1,    borderColor: '#6b7280', spanGaps: false, tension: 0.3 },
+          { label: 'Proje\u00e7\u00e3o Ano 2',     data: proj2,    borderColor: '#2563eb', spanGaps: false, tension: 0.3 },
         ],
       },
       options: { responsive: true, plugins: { legend: { position: 'top' } } },
@@ -928,7 +928,7 @@ App.Projecoes = {
   },
 
   exportCsv() {
-    const rows = [['Período','Orçado','Realizado','Projeção Ano 1','Projeção Ano 2']];
+    const rows = [['Per\u00edodo','Or\u00e7ado','Realizado','Proje\u00e7\u00e3o Ano 1','Proje\u00e7\u00e3o Ano 2']];
     (App.Projecoes._labels || []).forEach((l, i) => {
       rows.push([l,
         App.Projecoes._orcHist[i] ?? '',
@@ -938,7 +938,7 @@ App.Projecoes = {
       ]);
     });
     const csv = rows.map(r => r.join(';')).join('\n');
-    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url; a.download = `projecao_${App.state.exercicio}.csv`; a.click();
@@ -947,7 +947,7 @@ App.Projecoes = {
 };
 
 // =============================================================
-// SOLICITAR REVIS�fO
+// SOLICITAR REVIS\ufffdfO
 // =============================================================
 App.Revisao = {
   init() {
@@ -957,7 +957,7 @@ App.Revisao = {
     document.getElementById('rev-mes').value = App.state.mes;
     document.getElementById('rev-justificativa').addEventListener('input', function() {
       document.getElementById('rev-char-count').textContent =
-        `${this.value.length} / mínimo 50 caracteres`;
+        `${this.value.length} / m\u00ednimo 50 caracteres`;
     });
   },
 
@@ -991,15 +991,15 @@ App.Revisao = {
     });
 
     if (error) { App.toast('Erro: ' + error.message, 'error'); return; }
-    App.toast('Solicitação enviada com sucesso!', 'success');
+    App.toast('Solicita\u00e7\u00e3o enviada com sucesso!', 'success');
     document.getElementById('rev-solicitado').value = '';
     document.getElementById('rev-justificativa').value = '';
-    document.getElementById('rev-char-count').textContent = '0 / mínimo 50 caracteres';
+    document.getElementById('rev-char-count').textContent = '0 / m\u00ednimo 50 caracteres';
   },
 };
 
 // =============================================================
-// MINHAS SOLICITA�?�.ES
+// MINHAS SOLICITA\ufffd?\ufffd.ES
 // =============================================================
 App.MinhasSol = {
   async load() {
@@ -1009,7 +1009,7 @@ App.MinhasSol = {
       .order('solicitado_em', { ascending: false });
 
     const tbody = document.getElementById('minhassol-body');
-    if (!data?.length) { tbody.innerHTML = '<tr><td colspan="6" class="py-4 text-center text-gray-400">Nenhuma solicitação.</td></tr>'; return; }
+    if (!data?.length) { tbody.innerHTML = '<tr><td colspan="6" class="py-4 text-center text-gray-400">Nenhuma solicita\u00e7\u00e3o.</td></tr>'; return; }
 
     tbody.innerHTML = data.map(r => `
       <tr class="border-b text-sm">
@@ -1018,14 +1018,14 @@ App.MinhasSol = {
         <td class="py-2 text-right">${App.brl(r.valor_atual)}</td>
         <td class="py-2 text-right">${App.brl(r.valor_solicitado)}</td>
         <td class="py-2"><span class="badge badge-${r.status.toLowerCase()}">${r.status}</span></td>
-        <td class="py-2 text-gray-500 text-xs">${r.comentario_resp || '�?"'}</td>
+        <td class="py-2 text-gray-500 text-xs">${r.comentario_resp || '\ufffd?"'}</td>
       </tr>
     `).join('');
   },
 };
 
 // =============================================================
-// APROVA�?�.ES (MASTER)
+// APROVA\ufffd?\ufffd.ES (MASTER)
 // =============================================================
 App.Aprovacoes = {
   async load() {
@@ -1035,14 +1035,14 @@ App.Aprovacoes = {
       .order('solicitado_em', { ascending: false });
 
     const body = document.getElementById('aprovacoes-body');
-    if (!data?.length) { body.innerHTML = '<p class="text-sm text-gray-500">Nenhuma solicitação pendente.</p>'; return; }
+    if (!data?.length) { body.innerHTML = '<p class="text-sm text-gray-500">Nenhuma solicita\u00e7\u00e3o pendente.</p>'; return; }
 
     body.innerHTML = data.map(r => `
       <div class="aprovacao-card" id="sol-${r.id}">
         <div class="flex justify-between flex-wrap gap-2 mb-2">
           <div>
             <p class="font-semibold text-gray-800">${r.centros_custo?.nome || ''}</p>
-            <p class="text-sm text-gray-500">${r.naturezas?.descricao || ''} �?" Mês ${r.mes}/${r.exercicio}</p>
+            <p class="text-sm text-gray-500">${r.naturezas?.descricao || ''} \ufffd?" M\u00eas ${r.mes}/${r.exercicio}</p>
             <p class="text-xs text-gray-400 mt-1">Solicitado por: ${r.solicitado_por} em ${new Date(r.solicitado_em).toLocaleDateString('pt-BR')}</p>
           </div>
           <div class="text-right">
@@ -1052,10 +1052,10 @@ App.Aprovacoes = {
         </div>
         <p class="text-sm text-gray-600 mb-3 bg-gray-50 p-2 rounded"><em>"${r.justificativa}"</em></p>
         <div class="flex flex-wrap gap-2 items-center">
-          <input id="coment-${r.id}" type="text" placeholder="Comentário (obrigatório)"
+          <input id="coment-${r.id}" type="text" placeholder="Coment\u00e1rio (obrigat\u00f3rio)"
             class="form-input flex-1 min-w-48">
-          <button onclick="App.Aprovacoes.decidir(${r.id},'APROVADA')" class="btn-success">�o. Aprovar</button>
-          <button onclick="App.Aprovacoes.decidir(${r.id},'REJEITADA')" class="btn-danger">�O Rejeitar</button>
+          <button onclick="App.Aprovacoes.decidir(${r.id},'APROVADA')" class="btn-success">\ufffdo. Aprovar</button>
+          <button onclick="App.Aprovacoes.decidir(${r.id},'REJEITADA')" class="btn-danger">\ufffdO Rejeitar</button>
         </div>
       </div>
     `).join('');
@@ -1064,7 +1064,7 @@ App.Aprovacoes = {
 
   async decidir(id, status) {
     const coment = document.getElementById('coment-' + id)?.value?.trim();
-    if (!coment) { App.toast('Informe um comentário.', 'error'); return; }
+    if (!coment) { App.toast('Informe um coment\u00e1rio.', 'error'); return; }
 
     const sol = App.Aprovacoes._data?.find(r => r.id === id);
     if (!sol) return;
@@ -1077,7 +1077,7 @@ App.Aprovacoes = {
 
     if (error) { App.toast('Erro: ' + error.message, 'error'); return; }
 
-    // Se aprovado, atualiza orçamento
+    // Se aprovado, atualiza or\u00e7amento
     if (status === 'APROVADA') {
       await sb.from('orcamentos').upsert({
         exercicio: sol.exercicio, mes: sol.mes,
@@ -1088,13 +1088,13 @@ App.Aprovacoes = {
       }, { onConflict: 'exercicio,mes,centro_custo_id,natureza_id,aplicacao_id' });
     }
 
-    App.toast(`Solicitação ${status.toLowerCase()}!`, 'success');
+    App.toast(`Solicita\u00e7\u00e3o ${status.toLowerCase()}!`, 'success');
     document.getElementById('sol-' + id)?.remove();
   },
 };
 
 // =============================================================
-// GEST�fO DE USUÁRIOS (MASTER)
+// GEST\ufffdfO DE USU\u00c1RIOS (MASTER)
 // =============================================================
 App.Usuarios = {
   async load() {
@@ -1102,15 +1102,15 @@ App.Usuarios = {
       .select('*, centros_custo(nome)').order('nome');
 
     const tbody = document.getElementById('usuarios-body');
-    if (!data?.length) { tbody.innerHTML = '<tr><td colspan="6" class="py-4 text-center text-gray-400">Nenhum usuário.</td></tr>'; return; }
+    if (!data?.length) { tbody.innerHTML = '<tr><td colspan="6" class="py-4 text-center text-gray-400">Nenhum usu\u00e1rio.</td></tr>'; return; }
 
     tbody.innerHTML = data.map(u => `
       <tr class="border-b text-sm ${u.ativo ? '' : 'opacity-50'}">
-        <td class="py-2">${u.nome || '�?"'}</td>
+        <td class="py-2">${u.nome || '\ufffd?"'}</td>
         <td class="py-2 text-gray-500">${u.email}</td>
         <td class="py-2"><span class="badge badge-${u.nivel_acesso.toLowerCase()}">${u.nivel_acesso}</span></td>
-        <td class="py-2">${u.centros_custo?.nome || (u.nivel_acesso === 'GESTOR' ? '�?"' : 'Acesso Total')}</td>
-        <td class="py-2">${u.ativo ? '�o. Ativo' : '�>" Inativo'}</td>
+        <td class="py-2">${u.centros_custo?.nome || (u.nivel_acesso === 'GESTOR' ? '\ufffd?"' : 'Acesso Total')}</td>
+        <td class="py-2">${u.ativo ? '\ufffdo. Ativo' : '\ufffd>" Inativo'}</td>
         <td class="py-2 flex gap-1">
           <button onclick="App.Usuarios.openForm(${u.id})" class="btn-secondary text-xs">Editar</button>
           <button onclick="App.Usuarios.toggleAtivo(${u.id},${!u.ativo})" class="btn-secondary text-xs">
@@ -1126,11 +1126,11 @@ App.Usuarios = {
     const card = document.getElementById('usuario-form-card');
     card.classList.remove('hidden');
     document.getElementById('usu-id').value = id || '';
-    document.getElementById('usuario-form-title').textContent = id ? 'Editar Usuário' : 'Novo Usuário';
+    document.getElementById('usuario-form-title').textContent = id ? 'Editar Usu\u00e1rio' : 'Novo Usu\u00e1rio';
 
     // Preenche select de CCs
     const sel = document.getElementById('usu-cc');
-    sel.innerHTML = '<option value="">�?" Selecione �?"</option>';
+    sel.innerHTML = '<option value="">\ufffd?" Selecione \ufffd?"</option>';
     App.cache.centros.forEach(c => {
       const o = document.createElement('option');
       o.value = c.id; o.textContent = c.nome;
@@ -1171,7 +1171,7 @@ App.Usuarios = {
     const ccId  = document.getElementById('usu-cc').value || null;
     const dir   = document.getElementById('usu-dir').value.trim() || null;
 
-    if (!email || !nivel) { App.toast('E-mail e nível são obrigatórios.', 'error'); return; }
+    if (!email || !nivel) { App.toast('E-mail e n\u00edvel s\u00e3o obrigat\u00f3rios.', 'error'); return; }
 
     const payload = {
       nome, email, nivel_acesso: nivel,
@@ -1188,7 +1188,7 @@ App.Usuarios = {
 
     if (error) App.toast('Erro: ' + error.message, 'error');
     else {
-      App.toast('Usuário salvo!', 'success');
+      App.toast('Usu\u00e1rio salvo!', 'success');
       App.Usuarios.closeForm();
       App.Usuarios.load();
     }
@@ -1201,7 +1201,7 @@ App.Usuarios = {
 };
 
 // =============================================================
-// CONFIGURA�?�.ES (MASTER)
+// CONFIGURA\ufffd?\ufffd.ES (MASTER)
 // =============================================================
 App.Config = {
   async load() {
@@ -1234,12 +1234,12 @@ App.Config = {
     App.state.config.perc_alerta_vermelho = vermelho;
     App.state.exercicio = exercicio;
     document.getElementById('sel-exercicio').value = exercicio;
-    document.getElementById('exercicio-label').textContent = `Orçamento ${exercicio}`;
+    document.getElementById('exercicio-label').textContent = `Or\u00e7amento ${exercicio}`;
 
     const msg = document.getElementById('cfg-msg');
     msg.classList.remove('hidden');
     setTimeout(() => msg.classList.add('hidden'), 3000);
-    App.toast('Configurações salvas!', 'success');
+    App.toast('Configura\u00e7\u00f5es salvas!', 'success');
   },
 };
 
