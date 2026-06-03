@@ -163,19 +163,29 @@ const App = {
   // â”€â”€ Auth â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   async login() {
     const email = document.getElementById('login-email').value.trim();
-    if (!email) return;
-    const btn = document.getElementById('btn-login');
-    btn.disabled = true;
-    btn.textContent = 'Enviando...';
-    const { error } = await sb.auth.signInWithOtp({ email });
-    if (error) {
-      document.getElementById('login-msg').textContent = error.message;
-      document.getElementById('login-msg').classList.remove('hidden');
-      btn.disabled = false;
-      btn.textContent = 'Enviar link de acesso';
+    const senha = document.getElementById('login-senha').value;
+    const btn   = document.getElementById('btn-login');
+    const msgEl = document.getElementById('login-msg');
+    if (!email) { msgEl.textContent = 'Informe seu e-mail.'; msgEl.classList.remove('hidden'); return; }
+    btn.disabled = true; btn.textContent = 'Aguarde...'; msgEl.classList.add('hidden');
+    if (senha) {
+      const { error } = await sb.auth.signInWithPassword({ email, password: senha });
+      if (error) {
+        msgEl.textContent = error.message.includes('Invalid') ? 'E-mail ou senha incorretos.' : error.message;
+        msgEl.classList.remove('hidden');
+        btn.disabled = false; btn.textContent = 'Entrar';
+      }
     } else {
-      document.getElementById('login-form').classList.add('hidden');
-      document.getElementById('login-sent').classList.remove('hidden');
+      const { error } = await sb.auth.signInWithOtp({ email });
+      if (error) {
+        msgEl.textContent = error.message;
+        msgEl.classList.remove('hidden');
+        btn.disabled = false; btn.textContent = 'Entrar';
+      } else {
+        document.getElementById('login-form').classList.add('hidden');
+        document.getElementById('login-sent').classList.remove('hidden');
+        btn.disabled = false; btn.textContent = 'Entrar';
+      }
     }
   },
 
