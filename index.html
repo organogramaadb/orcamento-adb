@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Orçamento — Amigos do Bem</title>
+  <title>Or&#xE7;amento &#x2014; Amigos do Bem</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -18,7 +18,7 @@
   <div class="bg-white rounded-2xl shadow-2xl p-10 w-full max-w-md">
     <div class="text-center mb-8">
       <img src="assets/logo_adb.png" alt="Amigos do Bem" class="h-16 mx-auto mb-4" onerror="this.style.display='none'">
-      <h1 class="text-2xl font-bold text-gray-800">Controle Orçamentário</h1>
+      <h1 class="text-2xl font-bold text-gray-800">Controle Or&#xE7;ament&#xE1;rio</h1>
       <p class="text-gray-500 text-sm mt-1">Amigos do Bem</p>
     </div>
     <div id="login-form">
@@ -26,7 +26,7 @@
       <input id="login-email" type="email" placeholder="seu@amigosdobem.org"
         class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 mb-3">
       <label class="block text-sm font-medium text-gray-700 mb-1">Senha <span class="text-gray-400 font-normal">(deixe em branco para receber link por e-mail)</span></label>
-      <input id="login-senha" type="password" placeholder="••••••••••"
+      <input id="login-senha" type="password" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;"
         class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 mb-4">
       <button id="btn-login" onclick="App.login()"
         class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition">
@@ -35,7 +35,7 @@
       <div id="login-msg" class="mt-4 text-sm text-center text-red-600 hidden"></div>
     </div>
     <div id="login-sent" class="hidden text-center">
-      <div class="text-5xl mb-4">📧</div>
+      <div class="text-5xl mb-4">&#xD83D;&#xDCE7;</div>
       <p class="text-gray-700 font-medium">Link enviado!</p>
       <p class="text-gray-500 text-sm mt-2">Verifique seu e-mail e clique no link para acessar o sistema.</p>
       <button onclick="document.getElementById('login-sent').classList.add('hidden');document.getElementById('login-form').classList.remove('hidden')"
@@ -56,70 +56,70 @@
         <p class="text-xs text-gray-400" id="user-cc">---</p>
         <span class="inline-block mt-1 text-xs px-2 py-0.5 rounded-full bg-red-600" id="user-nivel">---</span>
       </div>
-      <p class="text-xs text-yellow-400 mt-2 font-medium" id="exercicio-label">Orçamento 2025</p>
+      <p class="text-xs text-yellow-400 mt-2 font-medium" id="exercicio-label">Or&#xE7;amento 2025</p>
     </div>
 
     <nav class="flex-1 p-3 space-y-1">
       <a href="#dashboard"     class="nav-link" data-screen="dashboard">
-        <span class="nav-icon">📊</span> Dashboard
+        <span class="nav-icon">&#xD83D;&#xDCCA;</span> Dashboard
       </a>
       <a href="#input"         class="nav-link" data-screen="input">
-        <span class="nav-icon">✏️</span> Input Orçamentário
+        <span class="nav-icon">&#x270F;&#xFE0F;</span> Input Or&#xE7;ament&#xE1;rio
       </a>
       <a href="#realizado"     class="nav-link" data-screen="realizado">
-        <span class="nav-icon">📥</span> Lançar Realizado
+        <span class="nav-icon">&#xD83D;&#xDCE5;</span> Lan&#xE7;ar Realizado
       </a>
       <a href="#apresentacao"  class="nav-link" data-screen="apresentacao">
-        <span class="nav-icon">📈</span> Apresentação
+        <span class="nav-icon">&#xD83D;&#xDCC8;</span> Apresenta&#xE7;&#xE3;o
       </a>
       <a href="#projecoes"     class="nav-link" data-screen="projecoes">
-        <span class="nav-icon">🔮</span> Projeções
+        <span class="nav-icon">&#xD83D;&#xDD2E;</span> Proje&#xE7;&#xF5;es
       </a>
 
       <div class="border-t border-gray-700 my-2 pt-2">
-        <p class="text-xs text-gray-500 uppercase px-3 mb-1">Ações</p>
+        <p class="text-xs text-gray-500 uppercase px-3 mb-1">A&#xE7;&#xF5;es</p>
         <a href="#revisao"     class="nav-link nav-secondary" data-screen="revisao">
-          <span class="nav-icon">📝</span> Solicitar Revisão
+          <span class="nav-icon">&#xD83D;&#xDCDD;</span> Solicitar Revis&#xE3;o
         </a>
         <a href="#minhas-sol"  class="nav-link nav-secondary" data-screen="minhas-sol">
-          <span class="nav-icon">📋</span> Minhas Solicitações
+          <span class="nav-icon">&#xD83D;&#xDCCB;</span> Minhas Solicita&#xE7;&#xF5;es
         </a>
       </div>
 
       <div id="admin-menu" class="border-t border-gray-700 my-2 pt-2 hidden">
         <p class="text-xs text-gray-500 uppercase px-3 mb-1">Admin</p>
         <a href="#aprovacoes"  class="nav-link" data-screen="aprovacoes">
-          <span class="nav-icon">✅</span> Aprovações
+          <span class="nav-icon">&#x2705;</span> Aprova&#xE7;&#xF5;es
         </a>
         <a href="#usuarios"    class="nav-link" data-screen="usuarios">
-          <span class="nav-icon">👥</span> Usuários
+          <span class="nav-icon">&#xD83D;&#xDC65;</span> Usu&#xE1;rios
         </a>
         <a href="#configuracoes" class="nav-link" data-screen="configuracoes">
-          <span class="nav-icon">⚙️</span> Configurações
+          <span class="nav-icon">&#x2699;&#xFE0F;</span> Configura&#xE7;&#xF5;es
         </a>
         <a href="#cad-centros" class="nav-link" data-screen="cad-centros">
-          <span class="nav-icon">🏢</span> Centros de Custo
+          <span class="nav-icon">&#xD83C;&#xDFE2;</span> Centros de Custo
         </a>
         <a href="#cad-naturezas" class="nav-link" data-screen="cad-naturezas">
-          <span class="nav-icon">📑</span> Naturezas
+          <span class="nav-icon">&#xD83D;&#xDCD1;</span> Naturezas
         </a>
       </div>
     </nav>
 
     <div class="p-3 border-t border-gray-700">
       <button onclick="App.logout()" class="w-full text-left text-xs text-gray-400 hover:text-white px-3 py-2 rounded">
-        🚪 Sair
+        &#xD83D;&#xDEAA; Sair
       </button>
     </div>
   </aside>
 
-  <!-- CONTEÚDO PRINCIPAL -->
+  <!-- CONTE&#xDA;DO PRINCIPAL -->
   <main class="flex-1 overflow-y-auto">
 
     <!-- TOPO -->
     <header class="bg-white shadow-sm px-6 py-3 flex items-center justify-between sticky top-0 z-10">
       <div class="flex items-center gap-3">
-        <button id="btn-hamburger" class="lg:hidden text-gray-500" onclick="App.toggleSidebar()">☰</button>
+        <button id="btn-hamburger" class="lg:hidden text-gray-500" onclick="App.toggleSidebar()">&#x2630;</button>
         <h2 id="page-title" class="text-lg font-semibold text-gray-800">Dashboard</h2>
       </div>
       <div class="flex items-center gap-2">
@@ -132,9 +132,9 @@
       </div>
     </header>
 
-    <!-- BANNER TRAVA EDIÇÃO -->
+    <!-- BANNER TRAVA EDI&#xC7;&#xC3;O -->
     <div id="banner-trava" class="hidden bg-red-50 border-b border-red-200 px-6 py-2 text-sm text-red-700">
-      ⛔ Período de edição encerrado. Somente o Administrador pode alterar o orçamento.
+      &#x26D4; Per&#xED;odo de edi&#xE7;&#xE3;o encerrado. Somente o Administrador pode alterar o or&#xE7;amento.
     </div>
 
     <!-- ===== SCREENS ===== -->
@@ -143,9 +143,9 @@
     <div id="screen-dashboard" class="screen p-6">
       <div class="flex flex-wrap gap-3 mb-5 items-center">
         <select id="dash-mes" onchange="App.Dash.load()" class="filter-select">
-          <option value="0">Acumulado (Jan–hoje)</option>
+          <option value="0">Acumulado (Jan&#x2013;hoje)</option>
           <option value="1">Janeiro</option><option value="2">Fevereiro</option>
-          <option value="3">Março</option><option value="4">Abril</option>
+          <option value="3">Mar&#xE7;o</option><option value="4">Abril</option>
           <option value="5">Maio</option><option value="6">Junho</option>
           <option value="7">Julho</option><option value="8">Agosto</option>
           <option value="9">Setembro</option><option value="10">Outubro</option>
@@ -153,17 +153,17 @@
         </select>
         <select id="dash-pilar" onchange="App.Dash.load()" class="filter-select hidden">
           <option value="">Todos os Pilares</option>
-          <option value="ADMINISTRAÇÃO">Administração</option>
+          <option value="ADMINISTRA&#xC7;&#xC3;O">Administra&#xE7;&#xE3;o</option>
           <option value="PROGRAMAS SOCIAIS">Programas Sociais</option>
         </select>
       </div>
 
       <!-- KPIs -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <div class="kpi-card"><p class="kpi-label">Total Orçado</p><p id="kpi-orcado" class="kpi-value">R$ 0</p></div>
+        <div class="kpi-card"><p class="kpi-label">Total Or&#xE7;ado</p><p id="kpi-orcado" class="kpi-value">R$ 0</p></div>
         <div class="kpi-card"><p class="kpi-label">Total Realizado</p><p id="kpi-realizado" class="kpi-value">R$ 0</p></div>
         <div class="kpi-card"><p class="kpi-label">% de Uso</p><p id="kpi-uso" class="kpi-value text-green-600">0%</p></div>
-        <div class="kpi-card"><p class="kpi-label">Saldo Disponível</p><p id="kpi-saldo" class="kpi-value">R$ 0</p></div>
+        <div class="kpi-card"><p class="kpi-label">Saldo Dispon&#xED;vel</p><p id="kpi-saldo" class="kpi-value">R$ 0</p></div>
       </div>
 
       <!-- Drill-down table -->
@@ -175,7 +175,7 @@
               <tr class="text-left text-gray-500 border-b">
                 <th class="pb-2 font-medium w-8"></th>
                 <th class="pb-2 font-medium">Centro / Grupo</th>
-                <th class="pb-2 font-medium text-right">Orçado</th>
+                <th class="pb-2 font-medium text-right">Or&#xE7;ado</th>
                 <th class="pb-2 font-medium text-right">Realizado</th>
                 <th class="pb-2 font-medium text-right">% Uso</th>
                 <th class="pb-2 font-medium text-right">Saldo</th>
@@ -186,14 +186,14 @@
         </div>
       </div>
 
-      <!-- Gráfico mensal -->
+      <!-- Gr&#xE1;fico mensal -->
       <div class="card">
-        <h3 class="card-title mb-3">Orçado vs Realizado por Mês</h3>
+        <h3 class="card-title mb-3">Or&#xE7;ado vs Realizado por M&#xEA;s</h3>
         <canvas id="chart-dash" height="100"></canvas>
       </div>
     </div>
 
-    <!-- INPUT ORÇAMENTÁRIO -->
+    <!-- INPUT OR&#xC7;AMENT&#xC1;RIO -->
     <div id="screen-input" class="screen p-6 hidden">
       <div class="card mb-5">
         <h3 class="card-title mb-4">Filtros</h3>
@@ -207,15 +207,15 @@
             <select id="inp-nat" class="form-select" onchange="App.Input.loadTable()"></select>
           </div>
           <div>
-            <label class="form-label">Aplicação (opcional)</label>
+            <label class="form-label">Aplica&#xE7;&#xE3;o (opcional)</label>
             <select id="inp-apl" class="form-select" onchange="App.Input.loadTable()">
-              <option value="">— Nenhuma —</option>
+              <option value="">&#x2014; Nenhuma &#x2014;</option>
             </select>
           </div>
         </div>
         <div class="flex gap-3 mt-4">
-          <button onclick="App.Input.saveAll()" class="btn-primary">💾 Salvar Todos</button>
-          <button onclick="App.Input.importAnterior()" class="btn-secondary">📂 Importar Exercício Anterior</button>
+          <button onclick="App.Input.saveAll()" class="btn-primary">&#xD83D;&#xDCBE; Salvar Todos</button>
+          <button onclick="App.Input.importAnterior()" class="btn-secondary">&#xD83D;&#xDCC2; Importar Exerc&#xED;cio Anterior</button>
         </div>
       </div>
 
@@ -224,9 +224,9 @@
           <table class="w-full text-sm">
             <thead>
               <tr class="text-left text-gray-500 border-b">
-                <th class="pb-2 font-medium">Mês</th>
+                <th class="pb-2 font-medium">M&#xEA;s</th>
                 <th class="pb-2 font-medium text-right">Valor Planejado (R$)</th>
-                <th class="pb-2 font-medium">Observação</th>
+                <th class="pb-2 font-medium">Observa&#xE7;&#xE3;o</th>
               </tr>
             </thead>
             <tbody id="inp-table-body"></tbody>
@@ -242,7 +242,7 @@
       </div>
     </div>
 
-    <!-- LANÇAR REALIZADO -->
+    <!-- LAN&#xC7;AR REALIZADO -->
     <div id="screen-realizado" class="screen p-6 hidden">
       <div class="card mb-5">
         <h3 class="card-title mb-4">Filtros</h3>
@@ -256,16 +256,16 @@
             <select id="real-nat" class="form-select" onchange="App.Realizado.loadTable()"></select>
           </div>
           <div>
-            <label class="form-label">Aplicação (opcional)</label>
+            <label class="form-label">Aplica&#xE7;&#xE3;o (opcional)</label>
             <select id="real-apl" class="form-select">
-              <option value="">— Nenhuma —</option>
+              <option value="">&#x2014; Nenhuma &#x2014;</option>
             </select>
           </div>
           <div>
-            <label class="form-label">Mês</label>
+            <label class="form-label">M&#xEA;s</label>
             <select id="real-mes" class="form-select">
               <option value="1">Janeiro</option><option value="2">Fevereiro</option>
-              <option value="3">Março</option><option value="4">Abril</option>
+              <option value="3">Mar&#xE7;o</option><option value="4">Abril</option>
               <option value="5">Maio</option><option value="6">Junho</option>
               <option value="7">Julho</option><option value="8">Agosto</option>
               <option value="9">Setembro</option><option value="10">Outubro</option>
@@ -273,7 +273,7 @@
             </select>
           </div>
         </div>
-        <button onclick="App.Realizado.saveAll()" class="btn-primary mt-4">💾 Salvar Lançamento</button>
+        <button onclick="App.Realizado.saveAll()" class="btn-primary mt-4">&#xD83D;&#xDCBE; Salvar Lan&#xE7;amento</button>
       </div>
 
       <div class="card">
@@ -282,29 +282,29 @@
             <tr class="text-left text-gray-500 border-b">
               <th class="pb-2 font-medium">Valor Realizado (R$)</th>
               <th class="pb-2 font-medium">Documento</th>
-              <th class="pb-2 font-medium">Descrição</th>
+              <th class="pb-2 font-medium">Descri&#xE7;&#xE3;o</th>
             </tr>
           </thead>
           <tbody id="real-table-body">
             <tr>
               <td><input type="number" id="real-valor" class="form-input w-40" step="0.01" placeholder="0,00"></td>
               <td><input type="text"   id="real-doc"   class="form-input w-32" placeholder="NF-123"></td>
-              <td><input type="text"   id="real-desc"  class="form-input w-64" placeholder="Descrição"></td>
+              <td><input type="text"   id="real-desc"  class="form-input w-64" placeholder="Descri&#xE7;&#xE3;o"></td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- APRESENTAÇÃO -->
+    <!-- APRESENTA&#xC7;&#xC3;O -->
     <div id="screen-apresentacao" class="screen p-6 hidden">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <div class="card">
-          <h3 class="card-title mb-3">Distribuição Orçada por Pilar</h3>
+          <h3 class="card-title mb-3">Distribui&#xE7;&#xE3;o Or&#xE7;ada por Pilar</h3>
           <canvas id="chart-pizza" height="200"></canvas>
         </div>
         <div class="card">
-          <h3 class="card-title mb-3">Evolução Mensal — Orçado vs Realizado</h3>
+          <h3 class="card-title mb-3">Evolu&#xE7;&#xE3;o Mensal &#x2014; Or&#xE7;ado vs Realizado</h3>
           <canvas id="chart-linha" height="200"></canvas>
         </div>
       </div>
@@ -312,17 +312,17 @@
       <div class="card mb-6">
         <div class="flex justify-between items-center mb-3">
           <h3 class="card-title">Resumo por Pilar</h3>
-          <button onclick="window.print()" class="btn-secondary text-xs">🖨️ Exportar PDF</button>
+          <button onclick="window.print()" class="btn-secondary text-xs">&#xD83D;&#xDDA8;&#xFE0F; Exportar PDF</button>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
             <thead>
               <tr class="text-left text-gray-500 border-b">
                 <th class="pb-2 font-medium">Pilar</th>
-                <th class="pb-2 font-medium text-right">Orçado Anual</th>
+                <th class="pb-2 font-medium text-right">Or&#xE7;ado Anual</th>
                 <th class="pb-2 font-medium text-right">Realizado</th>
                 <th class="pb-2 font-medium text-right">% Executado</th>
-                <th class="pb-2 font-medium text-right">Projeção Encerramento</th>
+                <th class="pb-2 font-medium text-right">Proje&#xE7;&#xE3;o Encerramento</th>
               </tr>
             </thead>
             <tbody id="apres-table-body"></tbody>
@@ -331,12 +331,12 @@
       </div>
 
       <div class="card">
-        <h3 class="card-title mb-3">Top 5 — Maior Desvio (Realizado &gt; Orçado)</h3>
+        <h3 class="card-title mb-3">Top 5 &#x2014; Maior Desvio (Realizado &gt; Or&#xE7;ado)</h3>
         <div id="top5-body"></div>
       </div>
     </div>
 
-    <!-- PROJEÇÕES -->
+    <!-- PROJE&#xC7;&#xD5;ES -->
     <div id="screen-projecoes" class="screen p-6 hidden">
       <div class="card mb-5">
         <div class="flex flex-wrap gap-4 items-end">
@@ -349,7 +349,7 @@
             <input id="proj-ajuste" type="number" value="5" step="0.1"
               class="form-input w-24" onchange="App.Projecoes.calcular()">
           </div>
-          <button onclick="App.Projecoes.exportCsv()" class="btn-secondary">📥 Exportar CSV</button>
+          <button onclick="App.Projecoes.exportCsv()" class="btn-secondary">&#xD83D;&#xDCE5; Exportar CSV</button>
         </div>
       </div>
       <div class="card mb-5 overflow-x-auto">
@@ -359,15 +359,15 @@
         </table>
       </div>
       <div class="card">
-        <h3 class="card-title mb-3">Projeção Gráfica — 24 Meses</h3>
+        <h3 class="card-title mb-3">Proje&#xE7;&#xE3;o Gr&#xE1;fica &#x2014; 24 Meses</h3>
         <canvas id="chart-proj" height="120"></canvas>
       </div>
     </div>
 
-    <!-- SOLICITAR REVISÃO -->
+    <!-- SOLICITAR REVIS&#xC3;O -->
     <div id="screen-revisao" class="screen p-6 hidden">
       <div class="card max-w-2xl">
-        <h3 class="card-title mb-5">Solicitar Revisão Orçamentária</h3>
+        <h3 class="card-title mb-5">Solicitar Revis&#xE3;o Or&#xE7;ament&#xE1;ria</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
             <label class="form-label">Centro de Custo</label>
@@ -378,14 +378,14 @@
             <select id="rev-nat" class="form-select"></select>
           </div>
           <div>
-            <label class="form-label">Aplicação (opcional)</label>
-            <select id="rev-apl" class="form-select"><option value="">— Nenhuma —</option></select>
+            <label class="form-label">Aplica&#xE7;&#xE3;o (opcional)</label>
+            <select id="rev-apl" class="form-select"><option value="">&#x2014; Nenhuma &#x2014;</option></select>
           </div>
           <div>
-            <label class="form-label">Mês</label>
+            <label class="form-label">M&#xEA;s</label>
             <select id="rev-mes" class="form-select">
               <option value="1">Janeiro</option><option value="2">Fevereiro</option>
-              <option value="3">Março</option><option value="4">Abril</option>
+              <option value="3">Mar&#xE7;o</option><option value="4">Abril</option>
               <option value="5">Maio</option><option value="6">Junho</option>
               <option value="7">Julho</option><option value="8">Agosto</option>
               <option value="9">Setembro</option><option value="10">Outubro</option>
@@ -402,19 +402,19 @@
           </div>
         </div>
         <div class="mb-4">
-          <label class="form-label">Justificativa (mínimo 50 caracteres)</label>
+          <label class="form-label">Justificativa (m&#xED;nimo 50 caracteres)</label>
           <textarea id="rev-justificativa" rows="4" class="form-input w-full"
-            placeholder="Descreva o motivo da revisão solicitada..."></textarea>
-          <p id="rev-char-count" class="text-xs text-gray-400 mt-1">0 / mínimo 50 caracteres</p>
+            placeholder="Descreva o motivo da revis&#xE3;o solicitada..."></textarea>
+          <p id="rev-char-count" class="text-xs text-gray-400 mt-1">0 / m&#xED;nimo 50 caracteres</p>
         </div>
-        <button onclick="App.Revisao.enviar()" class="btn-primary">📤 Enviar Solicitação</button>
+        <button onclick="App.Revisao.enviar()" class="btn-primary">&#xD83D;&#xDCE4; Enviar Solicita&#xE7;&#xE3;o</button>
       </div>
     </div>
 
-    <!-- MINHAS SOLICITAÇÕES -->
+    <!-- MINHAS SOLICITA&#xC7;&#xD5;ES -->
     <div id="screen-minhas-sol" class="screen p-6 hidden">
       <div class="card">
-        <h3 class="card-title mb-4">Minhas Solicitações de Revisão</h3>
+        <h3 class="card-title mb-4">Minhas Solicita&#xE7;&#xF5;es de Revis&#xE3;o</h3>
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
             <thead>
@@ -433,20 +433,20 @@
       </div>
     </div>
 
-    <!-- APROVAÇÕES (MASTER) -->
+    <!-- APROVA&#xC7;&#xD5;ES (MASTER) -->
     <div id="screen-aprovacoes" class="screen p-6 hidden">
       <div class="card">
-        <h3 class="card-title mb-4">Solicitações Pendentes de Aprovação</h3>
+        <h3 class="card-title mb-4">Solicita&#xE7;&#xF5;es Pendentes de Aprova&#xE7;&#xE3;o</h3>
         <div id="aprovacoes-body"></div>
       </div>
     </div>
 
-    <!-- GESTÃO DE USUÁRIOS (MASTER) -->
+    <!-- GEST&#xC3;O DE USU&#xC1;RIOS (MASTER) -->
     <div id="screen-usuarios" class="screen p-6 hidden">
       <div class="card mb-5">
         <div class="flex justify-between items-center mb-4">
-          <h3 class="card-title">Usuários Cadastrados</h3>
-          <button onclick="App.Usuarios.openForm()" class="btn-primary">+ Novo Usuário</button>
+          <h3 class="card-title">Usu&#xE1;rios Cadastrados</h3>
+          <button onclick="App.Usuarios.openForm()" class="btn-primary">+ Novo Usu&#xE1;rio</button>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
@@ -454,10 +454,10 @@
               <tr class="text-left text-gray-500 border-b">
                 <th class="pb-2 font-medium">Nome</th>
                 <th class="pb-2 font-medium">E-mail</th>
-                <th class="pb-2 font-medium">Nível</th>
+                <th class="pb-2 font-medium">N&#xED;vel</th>
                 <th class="pb-2 font-medium">Centro de Custo</th>
                 <th class="pb-2 font-medium">Status</th>
-                <th class="pb-2 font-medium">Ações</th>
+                <th class="pb-2 font-medium">A&#xE7;&#xF5;es</th>
               </tr>
             </thead>
             <tbody id="usuarios-body"></tbody>
@@ -465,9 +465,9 @@
         </div>
       </div>
 
-      <!-- Form novo/editar usuário -->
+      <!-- Form novo/editar usu&#xE1;rio -->
       <div id="usuario-form-card" class="card max-w-lg hidden">
-        <h3 class="card-title mb-4" id="usuario-form-title">Novo Usuário</h3>
+        <h3 class="card-title mb-4" id="usuario-form-title">Novo Usu&#xE1;rio</h3>
         <input type="hidden" id="usu-id">
         <div class="space-y-3">
           <div>
@@ -479,7 +479,7 @@
             <input id="usu-email" type="email" class="form-input w-full">
           </div>
           <div>
-            <label class="form-label">Nível de Acesso</label>
+            <label class="form-label">N&#xED;vel de Acesso</label>
             <select id="usu-nivel" class="form-select w-full" onchange="App.Usuarios.toggleCCField()">
               <option value="MASTER">MASTER</option>
               <option value="DIRETORIA">DIRETORIA</option>
@@ -502,19 +502,19 @@
       </div>
     </div>
 
-    <!-- CONFIGURAÇÕES (MASTER) -->
+    <!-- CONFIGURA&#xC7;&#xD5;ES (MASTER) -->
     <div id="screen-configuracoes" class="screen p-6 hidden">
       <div class="card max-w-md">
-        <h3 class="card-title mb-5">Configurações do Sistema</h3>
+        <h3 class="card-title mb-5">Configura&#xE7;&#xF5;es do Sistema</h3>
         <div class="space-y-4">
           <div>
-            <label class="form-label">Exercício Atual</label>
+            <label class="form-label">Exerc&#xED;cio Atual</label>
             <input id="cfg-exercicio" type="number" class="form-input w-full" value="2025">
           </div>
           <div>
-            <label class="form-label">Data Limite de Edição</label>
+            <label class="form-label">Data Limite de Edi&#xE7;&#xE3;o</label>
             <input id="cfg-data-limite" type="date" class="form-input w-full">
-            <p class="text-xs text-gray-400 mt-1">Após esta data, gestores não poderão editar o orçamento.</p>
+            <p class="text-xs text-gray-400 mt-1">Ap&#xF3;s esta data, gestores n&#xE3;o poder&#xE3;o editar o or&#xE7;amento.</p>
           </div>
           <div>
             <label class="form-label">% Alerta Amarelo</label>
@@ -524,8 +524,8 @@
             <label class="form-label">% Alerta Vermelho</label>
             <input id="cfg-vermelho" type="number" class="form-input w-full" value="100" min="1" max="200">
           </div>
-          <button onclick="App.Config.save()" class="btn-primary w-full">💾 Salvar Configurações</button>
-          <div id="cfg-msg" class="text-sm text-center text-green-600 hidden">Configurações salvas!</div>
+          <button onclick="App.Config.save()" class="btn-primary w-full">&#xD83D;&#xDCBE; Salvar Configura&#xE7;&#xF5;es</button>
+          <div id="cfg-msg" class="text-sm text-center text-green-600 hidden">Configura&#xE7;&#xF5;es salvas!</div>
         </div>
       </div>
     </div>
@@ -534,11 +534,11 @@
     <div id="screen-cad-centros" class="screen p-6 hidden">
       <div class="flex justify-between items-center mb-4">
         <div class="flex gap-3 items-center">
-          <input id="cad-cc-search" type="text" placeholder="Buscar por nome, código ou responsável..."
+          <input id="cad-cc-search" type="text" placeholder="Buscar por nome, c&#xF3;digo ou respons&#xE1;vel..."
             class="form-input w-72" oninput="App.CadCC.filter()">
           <select id="cad-cc-pilar" class="filter-select" onchange="App.CadCC.filter()">
             <option value="">Todos os Pilares</option>
-            <option value="ADMINISTRAÇÃO">Administração</option>
+            <option value="ADMINISTRA&#xC7;&#xC3;O">Administra&#xE7;&#xE3;o</option>
             <option value="PROGRAMAS SOCIAIS">Programas Sociais</option>
           </select>
         </div>
@@ -548,15 +548,15 @@
         <table class="w-full text-sm" id="cad-cc-table">
           <thead>
             <tr class="text-left text-gray-500 border-b text-xs">
-              <th class="pb-2 font-medium">Código</th>
-              <th class="pb-2 font-medium">Classificação</th>
+              <th class="pb-2 font-medium">C&#xF3;digo</th>
+              <th class="pb-2 font-medium">Classifica&#xE7;&#xE3;o</th>
               <th class="pb-2 font-medium">Unidade</th>
               <th class="pb-2 font-medium">Pilar / Grupo</th>
               <th class="pb-2 font-medium">Nome</th>
-              <th class="pb-2 font-medium">Responsável</th>
+              <th class="pb-2 font-medium">Respons&#xE1;vel</th>
               <th class="pb-2 font-medium">Diretoria</th>
               <th class="pb-2 font-medium">Status</th>
-              <th class="pb-2 font-medium">Ações</th>
+              <th class="pb-2 font-medium">A&#xE7;&#xF5;es</th>
             </tr>
           </thead>
           <tbody id="cad-cc-body"></tbody>
@@ -567,20 +567,20 @@
         <h3 class="card-title mb-4" id="cad-cc-form-title">Novo Centro de Custo</h3>
         <input type="hidden" id="cad-cc-id">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-          <div><label class="form-label">Código *</label><input id="cad-cc-codigo" type="text" class="form-input w-full"></div>
-          <div><label class="form-label">Classificação</label><input id="cad-cc-classif" type="text" class="form-input w-full" placeholder="ex: 1.01.001"></div>
+          <div><label class="form-label">C&#xF3;digo *</label><input id="cad-cc-codigo" type="text" class="form-input w-full"></div>
+          <div><label class="form-label">Classifica&#xE7;&#xE3;o</label><input id="cad-cc-classif" type="text" class="form-input w-full" placeholder="ex: 1.01.001"></div>
           <div><label class="form-label">Unidade</label><input id="cad-cc-unidade" type="text" class="form-input w-full" placeholder="ex: SP, CEARA"></div>
           <div><label class="form-label">Pilar</label>
             <select id="cad-cc-pilar-f" class="form-select w-full">
-              <option value="ADMINISTRAÇÃO">ADMINISTRAÇÃO</option>
+              <option value="ADMINISTRA&#xC7;&#xC3;O">ADMINISTRA&#xC7;&#xC3;O</option>
               <option value="PROGRAMAS SOCIAIS">PROGRAMAS SOCIAIS</option>
             </select>
           </div>
           <div><label class="form-label">Grupo</label><input id="cad-cc-grupo" type="text" class="form-input w-full"></div>
           <div><label class="form-label">Nome *</label><input id="cad-cc-nome" type="text" class="form-input w-full"></div>
           <div><label class="form-label">KPI</label><input id="cad-cc-kpi" type="text" class="form-input w-full"></div>
-          <div><label class="form-label">Setor / Local Físico</label><input id="cad-cc-setor" type="text" class="form-input w-full"></div>
-          <div><label class="form-label">Responsável</label><input id="cad-cc-resp" type="text" class="form-input w-full"></div>
+          <div><label class="form-label">Setor / Local F&#xED;sico</label><input id="cad-cc-setor" type="text" class="form-input w-full"></div>
+          <div><label class="form-label">Respons&#xE1;vel</label><input id="cad-cc-resp" type="text" class="form-input w-full"></div>
           <div><label class="form-label">Diretoria</label><input id="cad-cc-dir" type="text" class="form-input w-full"></div>
           <div class="md:col-span-1 flex items-end gap-2">
             <label class="form-label block">Ativo</label>
@@ -592,7 +592,7 @@
           <textarea id="cad-cc-obj" rows="3" class="form-input w-full"></textarea>
         </div>
         <div class="flex gap-3">
-          <button onclick="App.CadCC.save()" class="btn-primary">💾 Salvar</button>
+          <button onclick="App.CadCC.save()" class="btn-primary">&#xD83D;&#xDCBE; Salvar</button>
           <button onclick="App.CadCC.closeForm()" class="btn-secondary">Cancelar</button>
         </div>
       </div>
@@ -602,7 +602,7 @@
     <div id="screen-cad-naturezas" class="screen p-6 hidden">
       <div class="flex justify-between items-center mb-4">
         <div class="flex gap-3 items-center">
-          <input id="cad-nat-search" type="text" placeholder="Buscar por código, descrição ou agrupador..."
+          <input id="cad-nat-search" type="text" placeholder="Buscar por c&#xF3;digo, descri&#xE7;&#xE3;o ou agrupador..."
             class="form-input w-72" oninput="App.CadNat.filter()">
           <select id="cad-nat-tipo" class="filter-select" onchange="App.CadNat.filter()">
             <option value="">Todos os Tipos</option>
@@ -616,14 +616,14 @@
         <table class="w-full text-sm" style="min-width:900px">
           <thead>
             <tr class="text-left text-gray-500 border-b text-xs">
-              <th class="pb-2 font-medium">NL Classificação</th>
-              <th class="pb-2 font-medium">Descrição</th>
-              <th class="pb-2 font-medium">Código</th>
+              <th class="pb-2 font-medium">NL Classifica&#xE7;&#xE3;o</th>
+              <th class="pb-2 font-medium">Descri&#xE7;&#xE3;o</th>
+              <th class="pb-2 font-medium">C&#xF3;digo</th>
               <th class="pb-2 font-medium">Tipo</th>
               <th class="pb-2 font-medium">TPCT</th>
               <th class="pb-2 font-medium">Agrupador</th>
               <th class="pb-2 font-medium">Status</th>
-              <th class="pb-2 font-medium">Ações</th>
+              <th class="pb-2 font-medium">A&#xE7;&#xF5;es</th>
             </tr>
           </thead>
           <tbody id="cad-nat-body"></tbody>
@@ -634,16 +634,16 @@
         <h3 class="card-title mb-4" id="cad-nat-form-title">Nova Natureza</h3>
         <input type="hidden" id="cad-nat-id">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-          <div><label class="form-label">NL Classificação *</label><input id="cad-nat-nl" type="text" class="form-input w-full" placeholder="ex: 002.003.001-CTA"></div>
-          <div><label class="form-label">Descrição *</label><input id="cad-nat-desc" type="text" class="form-input w-full"></div>
-          <div><label class="form-label">Código</label><input id="cad-nat-cod" type="text" class="form-input w-full" placeholder="ex: 000227"></div>
+          <div><label class="form-label">NL Classifica&#xE7;&#xE3;o *</label><input id="cad-nat-nl" type="text" class="form-input w-full" placeholder="ex: 002.003.001-CTA"></div>
+          <div><label class="form-label">Descri&#xE7;&#xE3;o *</label><input id="cad-nat-desc" type="text" class="form-input w-full"></div>
+          <div><label class="form-label">C&#xF3;digo</label><input id="cad-nat-cod" type="text" class="form-input w-full" placeholder="ex: 000227"></div>
           <div><label class="form-label">Tipo</label>
             <select id="cad-nat-tipo-f" class="form-select w-full">
               <option value="DESPESA">DESPESA</option>
               <option value="RECEITA">RECEITA</option>
             </select>
           </div>
-          <div><label class="form-label">TPCT</label><input id="cad-nat-tpct" type="text" class="form-input w-full" placeholder="ex: RECEITAS MONETÁRIAS"></div>
+          <div><label class="form-label">TPCT</label><input id="cad-nat-tpct" type="text" class="form-input w-full" placeholder="ex: RECEITAS MONET&#xC1;RIAS"></div>
           <div><label class="form-label">Agrupador</label><input id="cad-nat-agrup" type="text" class="form-input w-full" placeholder="ex: RECEITA MENSAL PF"></div>
           <div class="flex items-end gap-2">
             <label class="form-label block">Ativo</label>
@@ -651,11 +651,11 @@
           </div>
         </div>
         <div class="mb-4">
-          <label class="form-label">Objetivo / Função</label>
+          <label class="form-label">Objetivo / Fun&#xE7;&#xE3;o</label>
           <textarea id="cad-nat-obj" rows="3" class="form-input w-full"></textarea>
         </div>
         <div class="flex gap-3">
-          <button onclick="App.CadNat.save()" class="btn-primary">💾 Salvar</button>
+          <button onclick="App.CadNat.save()" class="btn-primary">&#xD83D;&#xDCBE; Salvar</button>
           <button onclick="App.CadNat.closeForm()" class="btn-secondary">Cancelar</button>
         </div>
       </div>
@@ -669,7 +669,7 @@
   <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-screen overflow-y-auto">
     <div class="p-5 border-b flex justify-between items-center">
       <h3 id="modal-cc-title" class="font-semibold text-gray-800">Detalhe do Centro de Custo</h3>
-      <button onclick="App.Modal.close()" class="text-gray-400 hover:text-gray-600 text-xl">✕</button>
+      <button onclick="App.Modal.close()" class="text-gray-400 hover:text-gray-600 text-xl">&#x2715;</button>
     </div>
     <div class="p-5">
       <canvas id="chart-modal" height="150" class="mb-4"></canvas>
