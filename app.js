@@ -1273,25 +1273,31 @@ App.CadCC = {
   render(list) {
     const tbody = document.getElementById('cad-cc-body');
     if (!tbody) return;
-    if (!list.length) { tbody.innerHTML = `<tr><td colspan="9" class="py-6 text-center text-gray-400">Nenhum registro encontrado.</td></tr>`; return; }
-    tbody.innerHTML = list.map(c => `
-      <tr class="border-b text-xs hover:bg-gray-50 ${c.ativo ? '' : 'opacity-40'}">
-        <td class="py-1.5 pr-2 font-mono font-semibold text-gray-700">${c.codigo}</td>
-        <td class="py-1.5 pr-2 text-gray-500">${c.classificacao || ''}</td>
-        <td class="py-1.5 pr-2">${c.unidade || ''}</td>
-        <td class="py-1.5 pr-2">
-          <span class="text-xs text-gray-500">${c.pilar || ''}</span><br>
-          <span class="font-medium text-gray-700">${c.grupo || ''}</span>
-        </td>
-        <td class="py-1.5 pr-2 font-medium text-gray-800 max-w-xs truncate">${c.nome}</td>
-        <td class="py-1.5 pr-2 text-gray-600">${c.responsavel || ''}</td>
-        <td class="py-1.5 pr-2 text-gray-500 text-xs">${c.diretoria || ''}</td>
-        <td class="py-1.5 pr-2">${c.ativo ? '<span class="badge badge-aprovada">Ativo</span>' : '<span class="badge badge-rejeitada">Inativo</span>'}</td>
-        <td class="py-1.5 flex gap-1">
+    if (!list.length) { tbody.innerHTML = `<tr><td colspan="12" class="py-6 text-center text-gray-400">Nenhum registro encontrado.</td></tr>`; return; }
+    tbody.innerHTML = list.map(c => {
+      const obj = (c.objetivo || '').substring(0, 90) + (c.objetivo && c.objetivo.length > 90 ? '...' : '');
+      const objFull = (c.objetivo || '').replace(/"/g, '&quot;');
+      const nomeFull = (c.nome || '').replace(/"/g, '&quot;');
+      const kpiFull  = (c.kpi  || '').replace(/"/g, '&quot;');
+      return `
+      <tr class="border-b text-xs hover:bg-gray-50 ${c.ativo ? '' : 'opacity-40'}" style="vertical-align:top">
+        <td class="py-2 pr-2 font-mono font-bold text-gray-800">${c.codigo}</td>
+        <td class="py-2 pr-2 text-gray-600">${c.classificacao || ''}</td>
+        <td class="py-2 pr-2 text-gray-700 font-medium">${c.unidade || ''}</td>
+        <td class="py-2 pr-2 text-gray-700 leading-tight" style="word-break:break-word">${c.pilar || ''}</td>
+        <td class="py-2 pr-2 font-semibold text-gray-800 leading-tight" style="word-break:break-word" title="${nomeFull}">${c.nome || ''}</td>
+        <td class="py-2 pr-2 text-gray-500 leading-tight" style="word-break:break-word" title="${kpiFull}">${c.kpi || ''}</td>
+        <td class="py-2 pr-2 text-gray-500 leading-tight" style="word-break:break-word">${c.setor_local || ''}</td>
+        <td class="py-2 pr-2 text-gray-600 leading-tight" style="word-break:break-word">${c.responsavel || ''}</td>
+        <td class="py-2 pr-2 text-gray-400 italic leading-tight" style="word-break:break-word" title="${objFull}">${obj}</td>
+        <td class="py-2 pr-2 text-gray-600 leading-tight" style="word-break:break-word">${c.diretoria || ''}</td>
+        <td class="py-2 pr-2">${c.ativo ? '<span class="badge badge-aprovada">Ativo</span>' : '<span class="badge badge-rejeitada">Inativo</span>'}</td>
+        <td class="py-2 flex gap-1">
           <button onclick="App.CadCC.openForm(${c.id})" class="btn-secondary text-xs py-0.5 px-2">Editar</button>
           <button onclick="App.CadCC.toggleAtivo(${c.id},${!c.ativo})" class="btn-secondary text-xs py-0.5 px-2">${c.ativo ? 'Inativar' : 'Ativar'}</button>
         </td>
-      </tr>`).join('');
+      </tr>`;
+    }).join('');
   },
 
   openForm(id) {

@@ -545,18 +545,35 @@
         <button onclick="App.CadCC.openForm()" class="btn-primary">+ Novo Centro de Custo</button>
       </div>
       <div class="card overflow-x-auto mb-5">
-        <table class="w-full text-sm" id="cad-cc-table">
+        <table class="w-full text-sm" id="cad-cc-table" style="min-width:1400px;table-layout:fixed">
+          <colgroup>
+            <col style="width:60px">   <!-- CODIGO -->
+            <col style="width:90px">   <!-- CLASSIFICACAO -->
+            <col style="width:90px">   <!-- UNIDADE -->
+            <col style="width:130px">  <!-- PILAR -->
+            <col style="width:180px">  <!-- NOME DO CENTRO DE CUSTO -->
+            <col style="width:150px">  <!-- KPI -->
+            <col style="width:140px">  <!-- SETOR LOCAL FISICO -->
+            <col style="width:110px">  <!-- RESPONSAVEL -->
+            <col style="width:250px">  <!-- OBJETIVO DO CENTRO DE CUSTO -->
+            <col style="width:110px">  <!-- DIRETORIA -->
+            <col style="width:65px">   <!-- STATUS -->
+            <col style="width:115px">  <!-- ACOES -->
+          </colgroup>
           <thead>
-            <tr class="text-left text-gray-500 border-b text-xs">
-              <th class="pb-2 font-medium">C&#xF3;digo</th>
-              <th class="pb-2 font-medium">Classifica&#xE7;&#xE3;o</th>
-              <th class="pb-2 font-medium">Unidade</th>
-              <th class="pb-2 font-medium">Pilar / Grupo</th>
-              <th class="pb-2 font-medium">Nome</th>
-              <th class="pb-2 font-medium">Respons&#xE1;vel</th>
-              <th class="pb-2 font-medium">Diretoria</th>
-              <th class="pb-2 font-medium">Status</th>
-              <th class="pb-2 font-medium">A&#xE7;&#xF5;es</th>
+            <tr class="text-left border-b text-xs" style="background:#f8fafc">
+              <th class="py-2 pr-2 font-semibold text-gray-600">C&#xD3;DIGO</th>
+              <th class="py-2 pr-2 font-semibold text-gray-600">Classifica&#xE7;&#xE3;o</th>
+              <th class="py-2 pr-2 font-semibold text-gray-600">UNIDADE</th>
+              <th class="py-2 pr-2 font-semibold text-gray-600">PILAR</th>
+              <th class="py-2 pr-2 font-semibold text-gray-600">NOME DO CENTRO DE CUSTO</th>
+              <th class="py-2 pr-2 font-semibold text-gray-600">KPI</th>
+              <th class="py-2 pr-2 font-semibold text-gray-600">SETOR LOCAL FISICO</th>
+              <th class="py-2 pr-2 font-semibold text-gray-600">RESPONS&#xC1;VEL</th>
+              <th class="py-2 pr-2 font-semibold text-gray-600">OBJETIVO DO CENTRO DE CUSTO</th>
+              <th class="py-2 pr-2 font-semibold text-gray-600">DIRETORIA</th>
+              <th class="py-2 pr-2 font-semibold text-gray-600">STATUS</th>
+              <th class="py-2 font-semibold text-gray-600">A&#xC7;&#xD5;ES</th>
             </tr>
           </thead>
           <tbody id="cad-cc-body"></tbody>
