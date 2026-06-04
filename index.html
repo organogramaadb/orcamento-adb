@@ -608,6 +608,7 @@
             <option value="">Todos os Tipos</option>
             <option value="RECEITA">Receita</option>
             <option value="DESPESA">Despesa</option>
+            <option value="ATIVO">Ativo</option>
           </select>
         </div>
         <button onclick="App.CadNat.openForm()" class="btn-primary">+ Nova Natureza</button>
@@ -616,13 +617,14 @@
         <table class="w-full text-sm" style="min-width:900px">
           <thead>
             <tr class="text-left text-gray-500 border-b text-xs">
-              <th class="pb-2 font-medium">NL Classifica&#xE7;&#xE3;o</th>
-              <th class="pb-2 font-medium">Descri&#xE7;&#xE3;o</th>
-              <th class="pb-2 font-medium">C&#xF3;digo</th>
-              <th class="pb-2 font-medium">Tipo</th>
-              <th class="pb-2 font-medium">TPCT</th>
-              <th class="pb-2 font-medium">Agrupador</th>
-              <th class="pb-2 font-medium">Status</th>
+              <th class="pb-2 font-medium w-36">NL Classifica&#xE7;&#xE3;o</th>
+              <th class="pb-2 font-medium w-56">Descri&#xE7;&#xE3;o</th>
+              <th class="pb-2 font-medium w-20">C&#xF3;digo</th>
+              <th class="pb-2 font-medium w-24">Objetivo / Fun&#xE7;&#xE3;o</th>
+              <th class="pb-2 font-medium w-20">Tipo</th>
+              <th class="pb-2 font-medium w-40">TPCT</th>
+              <th class="pb-2 font-medium w-40">Agrupador</th>
+              <th class="pb-2 font-medium w-16">Status</th>
               <th class="pb-2 font-medium">A&#xE7;&#xF5;es</th>
             </tr>
           </thead>
@@ -641,6 +643,7 @@
             <select id="cad-nat-tipo-f" class="form-select w-full">
               <option value="DESPESA">DESPESA</option>
               <option value="RECEITA">RECEITA</option>
+              <option value="ATIVO">ATIVO</option>
             </select>
           </div>
           <div><label class="form-label">TPCT</label><input id="cad-nat-tpct" type="text" class="form-input w-full" placeholder="ex: RECEITAS MONET&#xC1;RIAS"></div>
