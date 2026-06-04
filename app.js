@@ -133,20 +133,23 @@ const App = {
       'projecoes': 'Proje\u00e7\u00f5es (24 meses)', 'revisao': 'Solicitar Revis\u00e3o',
       'minhas-sol': 'Minhas Solicita\u00e7\u00f5es', 'aprovacoes': 'Aprova\u00e7\u00f5es de Revis\u00e3o',
       'usuarios': 'Gest\u00e3o de Usu\u00e1rios', 'configuracoes': 'Configura\u00e7\u00f5es',
+      'cad-centros': 'Cadastro de Centros de Custo', 'cad-naturezas': 'Cadastro de Naturezas',
     };
     document.getElementById('page-title').textContent = titles[hash] || hash;
 
     const loaders = {
-      'dashboard':   () => App.Dash.load(),
-      'input':       () => App.Input.init(),
-      'realizado':   () => App.Realizado.init(),
-      'apresentacao':() => App.Apres.load(),
-      'projecoes':   () => App.Projecoes.init(),
-      'revisao':     () => App.Revisao.init(),
-      'minhas-sol':  () => App.MinhasSol.load(),
-      'aprovacoes':  () => App.Aprovacoes.load(),
-      'usuarios':    () => App.Usuarios.load(),
+      'dashboard':    () => App.Dash.load(),
+      'input':        () => App.Input.init(),
+      'realizado':    () => App.Realizado.init(),
+      'apresentacao': () => App.Apres.load(),
+      'projecoes':    () => App.Projecoes.init(),
+      'revisao':      () => App.Revisao.init(),
+      'minhas-sol':   () => App.MinhasSol.load(),
+      'aprovacoes':   () => App.Aprovacoes.load(),
+      'usuarios':     () => App.Usuarios.load(),
       'configuracoes':() => App.Config.load(),
+      'cad-centros':  () => App.CadCC.load(),
+      'cad-naturezas':() => App.CadNat.load(),
     };
     if (loaders[hash]) loaders[hash]();
   },
@@ -1240,6 +1243,233 @@ App.Config = {
     msg.classList.remove('hidden');
     setTimeout(() => msg.classList.add('hidden'), 3000);
     App.toast('Configura\u00e7\u00f5es salvas!', 'success');
+  },
+};
+
+// =============================================================
+// CADASTRO DE CENTROS DE CUSTO (MASTER)
+// =============================================================
+App.CadCC = {
+  _data: [],
+
+  async load() {
+    const { data } = await sb.from('centros_custo')
+      .select('*').order('pilar').order('grupo').order('nome');
+    App.CadCC._data = data || [];
+    App.CadCC.render(App.CadCC._data);
+  },
+
+  filter() {
+    const q    = (document.getElementById('cad-cc-search')?.value || '').toLowerCase();
+    const pilar = document.getElementById('cad-cc-pilar')?.value || '';
+    const filtered = App.CadCC._data.filter(c =>
+      (!pilar || c.pilar === pilar) &&
+      (!q || c.nome?.toLowerCase().includes(q) || c.codigo?.includes(q) ||
+             c.responsavel?.toLowerCase().includes(q))
+    );
+    App.CadCC.render(filtered);
+  },
+
+  render(list) {
+    const tbody = document.getElementById('cad-cc-body');
+    if (!tbody) return;
+    if (!list.length) { tbody.innerHTML = `<tr><td colspan="9" class="py-6 text-center text-gray-400">Nenhum registro encontrado.</td></tr>`; return; }
+    tbody.innerHTML = list.map(c => `
+      <tr class="border-b text-xs hover:bg-gray-50 ${c.ativo ? '' : 'opacity-40'}">
+        <td class="py-1.5 pr-2 font-mono font-semibold text-gray-700">${c.codigo}</td>
+        <td class="py-1.5 pr-2 text-gray-500">${c.classificacao || ''}</td>
+        <td class="py-1.5 pr-2">${c.unidade || ''}</td>
+        <td class="py-1.5 pr-2">
+          <span class="text-xs text-gray-500">${c.pilar || ''}</span><br>
+          <span class="font-medium text-gray-700">${c.grupo || ''}</span>
+        </td>
+        <td class="py-1.5 pr-2 font-medium text-gray-800 max-w-xs truncate">${c.nome}</td>
+        <td class="py-1.5 pr-2 text-gray-600">${c.responsavel || ''}</td>
+        <td class="py-1.5 pr-2 text-gray-500 text-xs">${c.diretoria || ''}</td>
+        <td class="py-1.5 pr-2">${c.ativo ? '<span class="badge badge-aprovada">Ativo</span>' : '<span class="badge badge-rejeitada">Inativo</span>'}</td>
+        <td class="py-1.5 flex gap-1">
+          <button onclick="App.CadCC.openForm(${c.id})" class="btn-secondary text-xs py-0.5 px-2">Editar</button>
+          <button onclick="App.CadCC.toggleAtivo(${c.id},${!c.ativo})" class="btn-secondary text-xs py-0.5 px-2">${c.ativo ? 'Inativar' : 'Ativar'}</button>
+        </td>
+      </tr>`).join('');
+  },
+
+  openForm(id) {
+    document.getElementById('cad-cc-form').classList.remove('hidden');
+    document.getElementById('cad-cc-form').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('cad-cc-id').value = id || '';
+    document.getElementById('cad-cc-form-title').textContent = id ? 'Editar Centro de Custo' : 'Novo Centro de Custo';
+    if (id) {
+      const c = App.CadCC._data.find(x => x.id === id);
+      if (!c) return;
+      document.getElementById('cad-cc-codigo').value  = c.codigo || '';
+      document.getElementById('cad-cc-classif').value = c.classificacao || '';
+      document.getElementById('cad-cc-unidade').value = c.unidade || '';
+      document.getElementById('cad-cc-pilar-f').value = c.pilar || 'ADMINISTRA\u00c7\u00c3O';
+      document.getElementById('cad-cc-grupo').value   = c.grupo || '';
+      document.getElementById('cad-cc-nome').value    = c.nome || '';
+      document.getElementById('cad-cc-kpi').value     = c.kpi || '';
+      document.getElementById('cad-cc-setor').value   = c.setor_local || '';
+      document.getElementById('cad-cc-resp').value    = c.responsavel || '';
+      document.getElementById('cad-cc-dir').value     = c.diretoria || '';
+      document.getElementById('cad-cc-obj').value     = c.objetivo || '';
+      document.getElementById('cad-cc-ativo').checked = c.ativo !== false;
+    } else {
+      ['codigo','classif','unidade','grupo','nome','kpi','setor','resp','dir','obj'].forEach(f =>
+        { const el = document.getElementById('cad-cc-'+f); if(el) el.value = ''; });
+      document.getElementById('cad-cc-ativo').checked = true;
+    }
+  },
+
+  closeForm() { document.getElementById('cad-cc-form').classList.add('hidden'); },
+
+  async save() {
+    const id     = document.getElementById('cad-cc-id').value;
+    const codigo = document.getElementById('cad-cc-codigo').value.trim();
+    const nome   = document.getElementById('cad-cc-nome').value.trim();
+    if (!codigo || !nome) { App.toast('C\u00f3digo e Nome s\u00e3o obrigat\u00f3rios.', 'error'); return; }
+
+    const payload = {
+      codigo, nome,
+      classificacao: document.getElementById('cad-cc-classif').value.trim() || null,
+      unidade:  document.getElementById('cad-cc-unidade').value.trim() || null,
+      pilar:    document.getElementById('cad-cc-pilar-f').value,
+      grupo:    document.getElementById('cad-cc-grupo').value.trim() || null,
+      kpi:      document.getElementById('cad-cc-kpi').value.trim() || null,
+      setor_local: document.getElementById('cad-cc-setor').value.trim() || null,
+      responsavel: document.getElementById('cad-cc-resp').value.trim() || null,
+      diretoria:   document.getElementById('cad-cc-dir').value.trim() || null,
+      objetivo:    document.getElementById('cad-cc-obj').value.trim() || null,
+      ativo:    document.getElementById('cad-cc-ativo').checked,
+    };
+
+    const { error } = id
+      ? await sb.from('centros_custo').update(payload).eq('id', parseInt(id))
+      : await sb.from('centros_custo').insert(payload);
+
+    if (error) { App.toast('Erro: ' + error.message, 'error'); return; }
+    App.toast('Centro de custo salvo!', 'success');
+    App.CadCC.closeForm();
+    await App.CadCC.load();
+    // Atualiza cache global
+    const { data: centros } = await sb.from('centros_custo').select('*').eq('ativo', true).order('pilar').order('grupo').order('nome');
+    App.cache.centros = centros || [];
+  },
+
+  async toggleAtivo(id, ativo) {
+    await sb.from('centros_custo').update({ ativo }).eq('id', id);
+    await App.CadCC.load();
+    const { data: centros } = await sb.from('centros_custo').select('*').eq('ativo', true).order('pilar').order('grupo').order('nome');
+    App.cache.centros = centros || [];
+  },
+};
+
+// =============================================================
+// CADASTRO DE NATUREZAS (MASTER)
+// =============================================================
+App.CadNat = {
+  _data: [],
+
+  async load() {
+    const { data } = await sb.from('naturezas')
+      .select('*').order('nl_classificacao');
+    App.CadNat._data = data || [];
+    App.CadNat.render(App.CadNat._data);
+  },
+
+  filter() {
+    const q    = (document.getElementById('cad-nat-search')?.value || '').toLowerCase();
+    const tipo = document.getElementById('cad-nat-tipo')?.value || '';
+    const filtered = App.CadNat._data.filter(n =>
+      (!tipo || n.tipo === tipo) &&
+      (!q || n.descricao?.toLowerCase().includes(q) ||
+             n.nl_classificacao?.toLowerCase().includes(q) ||
+             n.agrupador?.toLowerCase().includes(q) ||
+             n.codigo?.toLowerCase().includes(q))
+    );
+    App.CadNat.render(filtered);
+  },
+
+  render(list) {
+    const tbody = document.getElementById('cad-nat-body');
+    if (!tbody) return;
+    if (!list.length) { tbody.innerHTML = `<tr><td colspan="8" class="py-6 text-center text-gray-400">Nenhuma natureza encontrada.</td></tr>`; return; }
+    tbody.innerHTML = list.map(n => `
+      <tr class="border-b text-xs hover:bg-gray-50 ${n.ativo ? '' : 'opacity-40'}">
+        <td class="py-1.5 pr-2 font-mono font-semibold text-gray-700">${n.nl_classificacao}</td>
+        <td class="py-1.5 pr-2 font-medium text-gray-800 max-w-xs truncate" title="${n.descricao}">${n.descricao}</td>
+        <td class="py-1.5 pr-2 text-gray-500">${n.codigo || ''}</td>
+        <td class="py-1.5 pr-2">
+          <span class="badge ${n.tipo === 'RECEITA' ? 'badge-aprovada' : 'badge-gestor'}">${n.tipo || ''}</span>
+        </td>
+        <td class="py-1.5 pr-2 text-gray-500 text-xs">${n.tpct || ''}</td>
+        <td class="py-1.5 pr-2 text-gray-500 text-xs">${n.agrupador || ''}</td>
+        <td class="py-1.5 pr-2">${n.ativo ? '<span class="badge badge-aprovada">Ativo</span>' : '<span class="badge badge-rejeitada">Inativo</span>'}</td>
+        <td class="py-1.5 flex gap-1">
+          <button onclick="App.CadNat.openForm(${n.id})" class="btn-secondary text-xs py-0.5 px-2">Editar</button>
+          <button onclick="App.CadNat.toggleAtivo(${n.id},${!n.ativo})" class="btn-secondary text-xs py-0.5 px-2">${n.ativo ? 'Inativar' : 'Ativar'}</button>
+        </td>
+      </tr>`).join('');
+  },
+
+  openForm(id) {
+    document.getElementById('cad-nat-form').classList.remove('hidden');
+    document.getElementById('cad-nat-form').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('cad-nat-id').value = id || '';
+    document.getElementById('cad-nat-form-title').textContent = id ? 'Editar Natureza' : 'Nova Natureza';
+    if (id) {
+      const n = App.CadNat._data.find(x => x.id === id);
+      if (!n) return;
+      document.getElementById('cad-nat-nl').value    = n.nl_classificacao || '';
+      document.getElementById('cad-nat-desc').value  = n.descricao || '';
+      document.getElementById('cad-nat-cod').value   = n.codigo || '';
+      document.getElementById('cad-nat-tipo-f').value = n.tipo || 'DESPESA';
+      document.getElementById('cad-nat-tpct').value  = n.tpct || '';
+      document.getElementById('cad-nat-agrup').value = n.agrupador || '';
+      document.getElementById('cad-nat-obj').value   = n.objetivo || '';
+      document.getElementById('cad-nat-ativo').checked = n.ativo !== false;
+    } else {
+      ['nl','desc','cod','tpct','agrup','obj'].forEach(f =>
+        { const el = document.getElementById('cad-nat-'+f); if(el) el.value = ''; });
+      document.getElementById('cad-nat-ativo').checked = true;
+    }
+  },
+
+  closeForm() { document.getElementById('cad-nat-form').classList.add('hidden'); },
+
+  async save() {
+    const id   = document.getElementById('cad-nat-id').value;
+    const nl   = document.getElementById('cad-nat-nl').value.trim();
+    const desc = document.getElementById('cad-nat-desc').value.trim();
+    if (!nl || !desc) { App.toast('NL Classifica\u00e7\u00e3o e Descri\u00e7\u00e3o s\u00e3o obrigat\u00f3rios.', 'error'); return; }
+
+    const payload = {
+      nl_classificacao: nl, descricao: desc,
+      codigo:    document.getElementById('cad-nat-cod').value.trim() || null,
+      tipo:      document.getElementById('cad-nat-tipo-f').value,
+      tpct:      document.getElementById('cad-nat-tpct').value.trim() || null,
+      agrupador: document.getElementById('cad-nat-agrup').value.trim() || null,
+      objetivo:  document.getElementById('cad-nat-obj').value.trim() || null,
+      ativo:     document.getElementById('cad-nat-ativo').checked,
+    };
+
+    const { error } = id
+      ? await sb.from('naturezas').update(payload).eq('id', parseInt(id))
+      : await sb.from('naturezas').insert(payload);
+
+    if (error) { App.toast('Erro: ' + error.message, 'error'); return; }
+    App.toast('Natureza salva!', 'success');
+    App.CadNat.closeForm();
+    await App.CadNat.load();
+    const { data: nats } = await sb.from('naturezas').select('*').eq('ativo', true).order('nl_classificacao');
+    App.cache.naturezas = nats || [];
+  },
+
+  async toggleAtivo(id, ativo) {
+    await sb.from('naturezas').update({ ativo }).eq('id', id);
+    await App.CadNat.load();
+    const { data: nats } = await sb.from('naturezas').select('*').eq('ativo', true).order('nl_classificacao');
+    App.cache.naturezas = nats || [];
   },
 };
 

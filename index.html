@@ -97,6 +97,12 @@
         <a href="#configuracoes" class="nav-link" data-screen="configuracoes">
           <span class="nav-icon">⚙️</span> Configurações
         </a>
+        <a href="#cad-centros" class="nav-link" data-screen="cad-centros">
+          <span class="nav-icon">🏢</span> Centros de Custo
+        </a>
+        <a href="#cad-naturezas" class="nav-link" data-screen="cad-naturezas">
+          <span class="nav-icon">📑</span> Naturezas
+        </a>
       </div>
     </nav>
 
@@ -526,6 +532,137 @@
 
   </main>
 </div>
+
+    <!-- CADASTRO CENTROS DE CUSTO (MASTER) -->
+    <div id="screen-cad-centros" class="screen p-6 hidden">
+      <div class="flex justify-between items-center mb-4">
+        <div class="flex gap-3 items-center">
+          <input id="cad-cc-search" type="text" placeholder="Buscar por nome, código ou responsável..."
+            class="form-input w-72" oninput="App.CadCC.filter()">
+          <select id="cad-cc-pilar" class="filter-select" onchange="App.CadCC.filter()">
+            <option value="">Todos os Pilares</option>
+            <option value="ADMINISTRAÇÃO">Administração</option>
+            <option value="PROGRAMAS SOCIAIS">Programas Sociais</option>
+          </select>
+        </div>
+        <button onclick="App.CadCC.openForm()" class="btn-primary">+ Novo Centro de Custo</button>
+      </div>
+      <div class="card overflow-x-auto mb-5">
+        <table class="w-full text-sm" id="cad-cc-table">
+          <thead>
+            <tr class="text-left text-gray-500 border-b text-xs">
+              <th class="pb-2 font-medium">Código</th>
+              <th class="pb-2 font-medium">Classificação</th>
+              <th class="pb-2 font-medium">Unidade</th>
+              <th class="pb-2 font-medium">Pilar / Grupo</th>
+              <th class="pb-2 font-medium">Nome</th>
+              <th class="pb-2 font-medium">Responsável</th>
+              <th class="pb-2 font-medium">Diretoria</th>
+              <th class="pb-2 font-medium">Status</th>
+              <th class="pb-2 font-medium">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="cad-cc-body"></tbody>
+        </table>
+      </div>
+      <!-- Form cadastro CC -->
+      <div id="cad-cc-form" class="card hidden">
+        <h3 class="card-title mb-4" id="cad-cc-form-title">Novo Centro de Custo</h3>
+        <input type="hidden" id="cad-cc-id">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div><label class="form-label">Código *</label><input id="cad-cc-codigo" type="text" class="form-input w-full"></div>
+          <div><label class="form-label">Classificação</label><input id="cad-cc-classif" type="text" class="form-input w-full" placeholder="ex: 1.01.001"></div>
+          <div><label class="form-label">Unidade</label><input id="cad-cc-unidade" type="text" class="form-input w-full" placeholder="ex: SP, CEARA"></div>
+          <div><label class="form-label">Pilar</label>
+            <select id="cad-cc-pilar-f" class="form-select w-full">
+              <option value="ADMINISTRAÇÃO">ADMINISTRAÇÃO</option>
+              <option value="PROGRAMAS SOCIAIS">PROGRAMAS SOCIAIS</option>
+            </select>
+          </div>
+          <div><label class="form-label">Grupo</label><input id="cad-cc-grupo" type="text" class="form-input w-full"></div>
+          <div><label class="form-label">Nome *</label><input id="cad-cc-nome" type="text" class="form-input w-full"></div>
+          <div><label class="form-label">KPI</label><input id="cad-cc-kpi" type="text" class="form-input w-full"></div>
+          <div><label class="form-label">Setor / Local Físico</label><input id="cad-cc-setor" type="text" class="form-input w-full"></div>
+          <div><label class="form-label">Responsável</label><input id="cad-cc-resp" type="text" class="form-input w-full"></div>
+          <div><label class="form-label">Diretoria</label><input id="cad-cc-dir" type="text" class="form-input w-full"></div>
+          <div class="md:col-span-1 flex items-end gap-2">
+            <label class="form-label block">Ativo</label>
+            <input type="checkbox" id="cad-cc-ativo" checked class="w-5 h-5 accent-red-600 mt-1">
+          </div>
+        </div>
+        <div class="mb-4">
+          <label class="form-label">Objetivo do Centro de Custo</label>
+          <textarea id="cad-cc-obj" rows="3" class="form-input w-full"></textarea>
+        </div>
+        <div class="flex gap-3">
+          <button onclick="App.CadCC.save()" class="btn-primary">💾 Salvar</button>
+          <button onclick="App.CadCC.closeForm()" class="btn-secondary">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CADASTRO NATUREZAS (MASTER) -->
+    <div id="screen-cad-naturezas" class="screen p-6 hidden">
+      <div class="flex justify-between items-center mb-4">
+        <div class="flex gap-3 items-center">
+          <input id="cad-nat-search" type="text" placeholder="Buscar por código, descrição ou agrupador..."
+            class="form-input w-72" oninput="App.CadNat.filter()">
+          <select id="cad-nat-tipo" class="filter-select" onchange="App.CadNat.filter()">
+            <option value="">Todos os Tipos</option>
+            <option value="RECEITA">Receita</option>
+            <option value="DESPESA">Despesa</option>
+          </select>
+        </div>
+        <button onclick="App.CadNat.openForm()" class="btn-primary">+ Nova Natureza</button>
+      </div>
+      <div class="card overflow-x-auto mb-5">
+        <table class="w-full text-sm" style="min-width:900px">
+          <thead>
+            <tr class="text-left text-gray-500 border-b text-xs">
+              <th class="pb-2 font-medium">NL Classificação</th>
+              <th class="pb-2 font-medium">Descrição</th>
+              <th class="pb-2 font-medium">Código</th>
+              <th class="pb-2 font-medium">Tipo</th>
+              <th class="pb-2 font-medium">TPCT</th>
+              <th class="pb-2 font-medium">Agrupador</th>
+              <th class="pb-2 font-medium">Status</th>
+              <th class="pb-2 font-medium">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="cad-nat-body"></tbody>
+        </table>
+      </div>
+      <!-- Form cadastro Natureza -->
+      <div id="cad-nat-form" class="card hidden">
+        <h3 class="card-title mb-4" id="cad-nat-form-title">Nova Natureza</h3>
+        <input type="hidden" id="cad-nat-id">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div><label class="form-label">NL Classificação *</label><input id="cad-nat-nl" type="text" class="form-input w-full" placeholder="ex: 002.003.001-CTA"></div>
+          <div><label class="form-label">Descrição *</label><input id="cad-nat-desc" type="text" class="form-input w-full"></div>
+          <div><label class="form-label">Código</label><input id="cad-nat-cod" type="text" class="form-input w-full" placeholder="ex: 000227"></div>
+          <div><label class="form-label">Tipo</label>
+            <select id="cad-nat-tipo-f" class="form-select w-full">
+              <option value="DESPESA">DESPESA</option>
+              <option value="RECEITA">RECEITA</option>
+            </select>
+          </div>
+          <div><label class="form-label">TPCT</label><input id="cad-nat-tpct" type="text" class="form-input w-full" placeholder="ex: RECEITAS MONETÁRIAS"></div>
+          <div><label class="form-label">Agrupador</label><input id="cad-nat-agrup" type="text" class="form-input w-full" placeholder="ex: RECEITA MENSAL PF"></div>
+          <div class="flex items-end gap-2">
+            <label class="form-label block">Ativo</label>
+            <input type="checkbox" id="cad-nat-ativo" checked class="w-5 h-5 accent-red-600 mt-1">
+          </div>
+        </div>
+        <div class="mb-4">
+          <label class="form-label">Objetivo / Função</label>
+          <textarea id="cad-nat-obj" rows="3" class="form-input w-full"></textarea>
+        </div>
+        <div class="flex gap-3">
+          <button onclick="App.CadNat.save()" class="btn-primary">💾 Salvar</button>
+          <button onclick="App.CadNat.closeForm()" class="btn-secondary">Cancelar</button>
+        </div>
+      </div>
+    </div>
 
 <!-- MODAL DETALHE CC -->
 <div id="modal-cc" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
