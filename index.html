@@ -35,7 +35,7 @@
       <div id="login-msg" class="mt-4 text-sm text-center text-red-600 hidden"></div>
     </div>
     <div id="login-sent" class="hidden text-center">
-      <div class="text-5xl mb-4">&#x1F4E7;</div>
+      <div class="text-5xl mb-4"></div>
       <p class="text-gray-700 font-medium">Link enviado!</p>
       <p class="text-gray-500 text-sm mt-2">Verifique seu e-mail e clique no link para acessar o sistema.</p>
       <button onclick="document.getElementById('login-sent').classList.add('hidden');document.getElementById('login-form').classList.remove('hidden')"
@@ -61,28 +61,28 @@
 
     <nav class="flex-1 p-3 space-y-1">
       <a href="#dashboard"     class="nav-link" data-screen="dashboard">
-        <span class="nav-icon">&#x1F4CA;</span> Dashboard
+        <span class="nav-icon"></span> Dashboard
       </a>
       <a href="#input"         class="nav-link" data-screen="input">
         <span class="nav-icon">✏️</span> Input Or&#xE7;ament&#xE1;rio
       </a>
       <a href="#realizado"     class="nav-link" data-screen="realizado">
-        <span class="nav-icon">&#x1F4E5;</span> Lan&#xE7;ar Realizado
+        <span class="nav-icon"></span> Lan&#xE7;ar Realizado
       </a>
       <a href="#apresentacao"  class="nav-link" data-screen="apresentacao">
-        <span class="nav-icon">&#x1F4C8;</span> Apresenta&#xE7;&#xE3;o
+        <span class="nav-icon"></span> Apresenta&#xE7;&#xE3;o
       </a>
       <a href="#projecoes"     class="nav-link" data-screen="projecoes">
-        <span class="nav-icon">&#x1F52E;</span> Proje&#xE7;&#xF5;es
+        <span class="nav-icon"></span> Proje&#xE7;&#xF5;es
       </a>
 
       <div class="border-t border-gray-700 my-2 pt-2">
         <p class="text-xs text-gray-500 uppercase px-3 mb-1">A&#xE7;&#xF5;es</p>
         <a href="#revisao"     class="nav-link nav-secondary" data-screen="revisao">
-          <span class="nav-icon">&#x1F4DD;</span> Solicitar Revis&#xE3;o
+          <span class="nav-icon"></span> Solicitar Revis&#xE3;o
         </a>
         <a href="#minhas-sol"  class="nav-link nav-secondary" data-screen="minhas-sol">
-          <span class="nav-icon">&#x1F4CB;</span> Minhas Solicita&#xE7;&#xF5;es
+          <span class="nav-icon"></span> Minhas Solicita&#xE7;&#xF5;es
         </a>
       </div>
 
@@ -92,23 +92,23 @@
           <span class="nav-icon">✅</span> Aprova&#xE7;&#xF5;es
         </a>
         <a href="#usuarios"    class="nav-link" data-screen="usuarios">
-          <span class="nav-icon">&#x1F465;</span> Usu&#xE1;rios
+          <span class="nav-icon"></span> Usu&#xE1;rios
         </a>
         <a href="#configuracoes" class="nav-link" data-screen="configuracoes">
           <span class="nav-icon">⚙️</span> Configura&#xE7;&#xF5;es
         </a>
         <a href="#cad-centros" class="nav-link" data-screen="cad-centros">
-          <span class="nav-icon">&#x1F3E2;</span> Centros de Custo
+          <span class="nav-icon"></span> Centros de Custo
         </a>
         <a href="#cad-naturezas" class="nav-link" data-screen="cad-naturezas">
-          <span class="nav-icon">&#x1F4D1;</span> Naturezas
+          <span class="nav-icon"></span> Naturezas
         </a>
       </div>
     </nav>
 
     <div class="p-3 border-t border-gray-700">
       <button onclick="App.logout()" class="w-full text-left text-xs text-gray-400 hover:text-white px-3 py-2 rounded">
-        &#x1F6AA; Sair
+         Sair
       </button>
     </div>
   </aside>
@@ -214,8 +214,8 @@
           </div>
         </div>
         <div class="flex gap-3 mt-4">
-          <button onclick="App.Input.saveAll()" class="btn-primary">&#x1F4BE; Salvar Todos</button>
-          <button onclick="App.Input.importAnterior()" class="btn-secondary">&#x1F4C2; Importar Exerc&#xED;cio Anterior</button>
+          <button onclick="App.Input.saveAll()" class="btn-primary"> Salvar Todos</button>
+          <button onclick="App.Input.importAnterior()" class="btn-secondary"> Importar Exerc&#xED;cio Anterior</button>
         </div>
       </div>
 
@@ -273,7 +273,7 @@
             </select>
           </div>
         </div>
-        <button onclick="App.Realizado.saveAll()" class="btn-primary mt-4">&#x1F4BE; Salvar Lan&#xE7;amento</button>
+        <button onclick="App.Realizado.saveAll()" class="btn-primary mt-4"> Salvar Lan&#xE7;amento</button>
       </div>
 
       <div class="card">
@@ -312,7 +312,7 @@
       <div class="card mb-6">
         <div class="flex justify-between items-center mb-3">
           <h3 class="card-title">Resumo por Pilar</h3>
-          <button onclick="window.print()" class="btn-secondary text-xs">&#x1F5A8;️ Exportar PDF</button>
+          <button onclick="window.print()" class="btn-secondary text-xs">️ Exportar PDF</button>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
@@ -349,7 +349,7 @@
             <input id="proj-ajuste" type="number" value="5" step="0.1"
               class="form-input w-24" onchange="App.Projecoes.calcular()">
           </div>
-          <button onclick="App.Projecoes.exportCsv()" class="btn-secondary">&#x1F4E5; Exportar CSV</button>
+          <button onclick="App.Projecoes.exportCsv()" class="btn-secondary"> Exportar CSV</button>
         </div>
       </div>
       <div class="card mb-5 overflow-x-auto">
@@ -407,7 +407,7 @@
             placeholder="Descreva o motivo da revis&#xE3;o solicitada..."></textarea>
           <p id="rev-char-count" class="text-xs text-gray-400 mt-1">0 / m&#xED;nimo 50 caracteres</p>
         </div>
-        <button onclick="App.Revisao.enviar()" class="btn-primary">&#x1F4E4; Enviar Solicita&#xE7;&#xE3;o</button>
+        <button onclick="App.Revisao.enviar()" class="btn-primary"> Enviar Solicita&#xE7;&#xE3;o</button>
       </div>
     </div>
 
@@ -524,7 +524,7 @@
             <label class="form-label">% Alerta Vermelho</label>
             <input id="cfg-vermelho" type="number" class="form-input w-full" value="100" min="1" max="200">
           </div>
-          <button onclick="App.Config.save()" class="btn-primary w-full">&#x1F4BE; Salvar Configura&#xE7;&#xF5;es</button>
+          <button onclick="App.Config.save()" class="btn-primary w-full"> Salvar Configura&#xE7;&#xF5;es</button>
           <div id="cfg-msg" class="text-sm text-center text-green-600 hidden">Configura&#xE7;&#xF5;es salvas!</div>
         </div>
       </div>
@@ -592,7 +592,7 @@
           <textarea id="cad-cc-obj" rows="3" class="form-input w-full"></textarea>
         </div>
         <div class="flex gap-3">
-          <button onclick="App.CadCC.save()" class="btn-primary">&#x1F4BE; Salvar</button>
+          <button onclick="App.CadCC.save()" class="btn-primary"> Salvar</button>
           <button onclick="App.CadCC.closeForm()" class="btn-secondary">Cancelar</button>
         </div>
       </div>
@@ -614,18 +614,29 @@
         <button onclick="App.CadNat.openForm()" class="btn-primary">+ Nova Natureza</button>
       </div>
       <div class="card overflow-x-auto mb-5">
-        <table class="w-full text-sm" style="min-width:900px">
+        <table class="w-full text-sm" style="min-width:1100px;table-layout:fixed">
+          <colgroup>
+            <col style="width:140px">  <!-- NL_CLASSIFICACAO -->
+            <col style="width:200px">  <!-- DESCRICAO NATUREZA -->
+            <col style="width:70px">   <!-- CODIGO -->
+            <col style="width:200px">  <!-- OBJETIVO / FUNCAO -->
+            <col style="width:75px">   <!-- TIPO -->
+            <col style="width:140px">  <!-- TPCT -->
+            <col style="width:130px">  <!-- AGRUPADOR -->
+            <col style="width:65px">   <!-- STATUS -->
+            <col style="width:120px">  <!-- ACOES -->
+          </colgroup>
           <thead>
-            <tr class="text-left text-gray-500 border-b text-xs">
-              <th class="pb-2 font-medium w-36">NL Classifica&#xE7;&#xE3;o</th>
-              <th class="pb-2 font-medium w-56">Descri&#xE7;&#xE3;o</th>
-              <th class="pb-2 font-medium w-20">C&#xF3;digo</th>
-              <th class="pb-2 font-medium w-24">Objetivo / Fun&#xE7;&#xE3;o</th>
-              <th class="pb-2 font-medium w-20">Tipo</th>
-              <th class="pb-2 font-medium w-40">TPCT</th>
-              <th class="pb-2 font-medium w-40">Agrupador</th>
-              <th class="pb-2 font-medium w-16">Status</th>
-              <th class="pb-2 font-medium">A&#xE7;&#xF5;es</th>
+            <tr class="text-left border-b text-xs" style="background:#f8fafc">
+              <th class="py-2 pr-2 font-semibold text-gray-600">NL_CLASSIFICACAO</th>
+              <th class="py-2 pr-2 font-semibold text-gray-600">DESCRI&#xC7;&#xC3;O NATUREZA</th>
+              <th class="py-2 pr-2 font-semibold text-gray-600">C&#xD3;DIGO</th>
+              <th class="py-2 pr-2 font-semibold text-gray-600">OBJETIVO / FUN&#xC7;&#xC3;O</th>
+              <th class="py-2 pr-2 font-semibold text-gray-600">TIPO</th>
+              <th class="py-2 pr-2 font-semibold text-gray-600">TPCT</th>
+              <th class="py-2 pr-2 font-semibold text-gray-600">AGRUPADOR</th>
+              <th class="py-2 pr-2 font-semibold text-gray-600">STATUS</th>
+              <th class="py-2 font-semibold text-gray-600">A&#xC7;&#xD5;ES</th>
             </tr>
           </thead>
           <tbody id="cad-nat-body"></tbody>
@@ -658,7 +669,7 @@
           <textarea id="cad-nat-obj" rows="3" class="form-input w-full"></textarea>
         </div>
         <div class="flex gap-3">
-          <button onclick="App.CadNat.save()" class="btn-primary">&#x1F4BE; Salvar</button>
+          <button onclick="App.CadNat.save()" class="btn-primary"> Salvar</button>
           <button onclick="App.CadNat.closeForm()" class="btn-secondary">Cancelar</button>
         </div>
       </div>
