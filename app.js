@@ -1396,21 +1396,24 @@ App.CadNat = {
     if (!list.length) { tbody.innerHTML = `<tr><td colspan="9" class="py-6 text-center text-gray-400">Nenhuma natureza encontrada.</td></tr>`; return; }
     const tipoBadge = t => t === 'RECEITA' ? 'badge-aprovada' : t === 'ATIVO' ? 'badge-diretoria' : 'badge-gestor';
     tbody.innerHTML = list.map(n => {
-      const obj = (n.objetivo || '').substring(0, 80) + (n.objetivo && n.objetivo.length > 80 ? '...' : '');
+      const obj     = (n.objetivo || '').substring(0, 60) + (n.objetivo && n.objetivo.length > 60 ? '...' : '');
       const objFull = (n.objetivo || '').replace(/"/g, '&quot;');
+      const descFull = (n.descricao || '').replace(/"/g, '&quot;');
+      // Agrupador: quebra em duas linhas se tiver " / " ou for longo
+      const agr = (n.agrupador || '').replace(' / ', '/\u200b');
       return `
-      <tr class="border-b text-xs hover:bg-gray-50 ${n.ativo ? '' : 'opacity-40'}">
-        <td class="py-1.5 pr-2 font-mono font-semibold text-gray-700 whitespace-nowrap">${n.nl_classificacao}</td>
-        <td class="py-1.5 pr-2 font-medium text-gray-800" style="max-width:200px" title="${(n.descricao||'').replace(/"/g,'&quot;')}">${n.descricao}</td>
-        <td class="py-1.5 pr-2 text-gray-500 whitespace-nowrap">${n.codigo || ''}</td>
-        <td class="py-1.5 pr-2 text-gray-400 italic" style="max-width:180px" title="${objFull}">${obj}</td>
-        <td class="py-1.5 pr-2 whitespace-nowrap">
+      <tr class="border-b text-xs hover:bg-gray-50 ${n.ativo ? '' : 'opacity-40'}" style="vertical-align:top">
+        <td class="py-2 pr-2 font-mono font-semibold text-gray-700 whitespace-nowrap">${n.nl_classificacao}</td>
+        <td class="py-2 pr-2 font-medium text-gray-800 leading-tight" style="max-width:180px;word-break:break-word" title="${descFull}">${n.descricao}</td>
+        <td class="py-2 pr-2 text-gray-500 whitespace-nowrap">${n.codigo || ''}</td>
+        <td class="py-2 pr-2 text-gray-400 italic leading-tight" style="max-width:160px;word-break:break-word" title="${objFull}">${obj}</td>
+        <td class="py-2 pr-2 whitespace-nowrap">
           <span class="badge ${tipoBadge(n.tipo)}">${n.tipo || ''}</span>
         </td>
-        <td class="py-1.5 pr-2 text-gray-600 text-xs whitespace-nowrap">${n.tpct || ''}</td>
-        <td class="py-1.5 pr-2 text-gray-500 text-xs whitespace-nowrap">${n.agrupador || ''}</td>
-        <td class="py-1.5 pr-2 whitespace-nowrap">${n.ativo ? '<span class="badge badge-aprovada">Ativo</span>' : '<span class="badge badge-rejeitada">Inativo</span>'}</td>
-        <td class="py-1.5 whitespace-nowrap flex gap-1">
+        <td class="py-2 pr-2 text-gray-600 text-xs leading-tight" style="max-width:130px;word-break:break-word">${n.tpct || ''}</td>
+        <td class="py-2 pr-2 text-gray-500 text-xs leading-tight" style="max-width:110px;word-break:break-word">${agr}</td>
+        <td class="py-2 pr-2 whitespace-nowrap">${n.ativo ? '<span class="badge badge-aprovada">Ativo</span>' : '<span class="badge badge-rejeitada">Inativo</span>'}</td>
+        <td class="py-2 whitespace-nowrap flex gap-1">
           <button onclick="App.CadNat.openForm(${n.id})" class="btn-secondary text-xs py-0.5 px-2">Editar</button>
           <button onclick="App.CadNat.toggleAtivo(${n.id},${!n.ativo})" class="btn-secondary text-xs py-0.5 px-2">${n.ativo ? 'Inativar' : 'Ativar'}</button>
         </td>
