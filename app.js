@@ -1257,6 +1257,34 @@ App.CadCC = {
       .select('*').order('pilar').order('grupo').order('nome');
     App.CadCC._data = data || [];
     App.CadCC.render(App.CadCC._data);
+    App.CadCC.initTopScroll();
+  },
+
+  initTopScroll() {
+    const tableScroll = document.getElementById('cc-table-scroll');
+    const topScroll   = document.getElementById('cc-top-scroll');
+    const topInner    = document.getElementById('cc-top-scroll-inner');
+    if (!tableScroll || !topScroll || !topInner) return;
+
+    // Ajusta a largura do inner para refletir a largura da tabela
+    const syncWidth = () => {
+      topInner.style.width = tableScroll.scrollWidth + 'px';
+    };
+    syncWidth();
+    new ResizeObserver(syncWidth).observe(tableScroll);
+
+    // Sincroniza scroll bidirecionalmente
+    let syncing = false;
+    tableScroll.addEventListener('scroll', () => {
+      if (syncing) return; syncing = true;
+      topScroll.scrollLeft = tableScroll.scrollLeft;
+      syncing = false;
+    });
+    topScroll.addEventListener('scroll', () => {
+      if (syncing) return; syncing = true;
+      tableScroll.scrollLeft = topScroll.scrollLeft;
+      syncing = false;
+    });
   },
 
   filter() {

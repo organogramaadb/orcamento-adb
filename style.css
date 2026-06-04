@@ -186,3 +186,42 @@
   margin-bottom: 12px;
 }
 .aprovacao-card:hover { border-color: #E63329; }
+
+/* ---- Cadastro CC: barra sticky + header congelado + scrollbar topo ---- */
+.cc-sticky-bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: #F9FAFB;
+  padding: 12px 0 10px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.cc-top-scrollbar {
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: 14px;
+  margin-bottom: 0;
+  border-radius: 4px 4px 0 0;
+  background: #f1f5f9;
+}
+.cc-top-scrollbar::-webkit-scrollbar { height: 8px; }
+.cc-top-scrollbar::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 4px; }
+.cc-top-scrollbar::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+.cc-top-scrollbar::-webkit-scrollbar-thumb:hover { background: #64748b; }
+#cc-top-scroll-inner { height: 1px; }
+
+.cc-thead-sticky th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #f8fafc;
+  border-bottom: 2px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+/* Scrollbar da tabela principal (horizontal) */
+#cc-table-scroll::-webkit-scrollbar { height: 0; width: 6px; }
+#cc-table-scroll::-webkit-scrollbar-track { background: #f1f5f9; }
+#cc-table-scroll::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }

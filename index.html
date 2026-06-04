@@ -532,52 +532,65 @@
 
     <!-- CADASTRO CENTROS DE CUSTO (MASTER) -->
     <div id="screen-cad-centros" class="screen p-6 hidden">
-      <div class="flex justify-between items-center mb-4">
-        <div class="flex gap-3 items-center">
-          <input id="cad-cc-search" type="text" placeholder="Buscar por nome, c&#xF3;digo ou respons&#xE1;vel..."
-            class="form-input w-72" oninput="App.CadCC.filter()">
-          <select id="cad-cc-pilar" class="filter-select" onchange="App.CadCC.filter()">
-            <option value="">Todos os Pilares</option>
-            <option value="ADMINISTRA&#xC7;&#xC3;O">Administra&#xE7;&#xE3;o</option>
-            <option value="PROGRAMAS SOCIAIS">Programas Sociais</option>
-          </select>
+
+      <!-- Barra de acao sticky -->
+      <div class="cc-sticky-bar">
+        <div class="flex justify-between items-center">
+          <div class="flex gap-3 items-center">
+            <input id="cad-cc-search" type="text" placeholder="Buscar por nome, c&#xF3;digo ou respons&#xE1;vel..."
+              class="form-input w-64" oninput="App.CadCC.filter()">
+            <select id="cad-cc-pilar" class="filter-select" onchange="App.CadCC.filter()">
+              <option value="">Todos os Pilares</option>
+              <option value="ADMINISTRA&#xC7;&#xC3;O">Administra&#xE7;&#xE3;o</option>
+              <option value="PROGRAMAS SOCIAIS">Programas Sociais</option>
+            </select>
+          </div>
+          <button onclick="App.CadCC.openForm()" class="btn-primary">+ Novo Centro de Custo</button>
         </div>
-        <button onclick="App.CadCC.openForm()" class="btn-primary">+ Novo Centro de Custo</button>
       </div>
-      <div class="card overflow-x-auto mb-5">
-        <table class="w-full text-sm" id="cad-cc-table" style="min-width:1400px;table-layout:fixed">
-          <colgroup>
-            <col style="width:60px">   <!-- CODIGO -->
-            <col style="width:90px">   <!-- CLASSIFICACAO -->
-            <col style="width:90px">   <!-- UNIDADE -->
-            <col style="width:130px">  <!-- PILAR -->
-            <col style="width:180px">  <!-- NOME DO CENTRO DE CUSTO -->
-            <col style="width:150px">  <!-- KPI -->
-            <col style="width:140px">  <!-- SETOR LOCAL FISICO -->
-            <col style="width:110px">  <!-- RESPONSAVEL -->
-            <col style="width:250px">  <!-- OBJETIVO DO CENTRO DE CUSTO -->
-            <col style="width:110px">  <!-- DIRETORIA -->
-            <col style="width:65px">   <!-- STATUS -->
-            <col style="width:115px">  <!-- ACOES -->
-          </colgroup>
-          <thead>
-            <tr class="text-left border-b text-xs" style="background:#f8fafc">
-              <th class="py-2 pr-2 font-semibold text-gray-600">C&#xD3;DIGO</th>
-              <th class="py-2 pr-2 font-semibold text-gray-600">Classifica&#xE7;&#xE3;o</th>
-              <th class="py-2 pr-2 font-semibold text-gray-600">UNIDADE</th>
-              <th class="py-2 pr-2 font-semibold text-gray-600">PILAR</th>
-              <th class="py-2 pr-2 font-semibold text-gray-600">NOME DO CENTRO DE CUSTO</th>
-              <th class="py-2 pr-2 font-semibold text-gray-600">KPI</th>
-              <th class="py-2 pr-2 font-semibold text-gray-600">SETOR LOCAL FISICO</th>
-              <th class="py-2 pr-2 font-semibold text-gray-600">RESPONS&#xC1;VEL</th>
-              <th class="py-2 pr-2 font-semibold text-gray-600">OBJETIVO DO CENTRO DE CUSTO</th>
-              <th class="py-2 pr-2 font-semibold text-gray-600">DIRETORIA</th>
-              <th class="py-2 pr-2 font-semibold text-gray-600">STATUS</th>
-              <th class="py-2 font-semibold text-gray-600">A&#xC7;&#xD5;ES</th>
-            </tr>
-          </thead>
-          <tbody id="cad-cc-body"></tbody>
-        </table>
+
+      <!-- Scrollbar espelho no topo -->
+      <div id="cc-top-scroll" class="cc-top-scrollbar">
+        <div id="cc-top-scroll-inner"></div>
+      </div>
+
+      <!-- Tabela com scroll horizontal e vertical -->
+      <div class="card p-0 mb-5">
+        <div id="cc-table-scroll" style="overflow:auto;max-height:calc(100vh - 230px)">
+          <table class="w-full text-sm" id="cad-cc-table" style="min-width:1150px;table-layout:fixed;border-collapse:collapse">
+            <colgroup>
+              <col style="width:52px">   <!-- CODIGO -->
+              <col style="width:72px">   <!-- CLASSIFICACAO -->
+              <col style="width:72px">   <!-- UNIDADE -->
+              <col style="width:110px">  <!-- PILAR -->
+              <col style="width:145px">  <!-- NOME DO CENTRO DE CUSTO -->
+              <col style="width:120px">  <!-- KPI -->
+              <col style="width:105px">  <!-- SETOR LOCAL FISICO -->
+              <col style="width:90px">   <!-- RESPONSAVEL -->
+              <col style="width:190px">  <!-- OBJETIVO DO CENTRO DE CUSTO -->
+              <col style="width:90px">   <!-- DIRETORIA -->
+              <col style="width:55px">   <!-- STATUS -->
+              <col style="width:105px">  <!-- ACOES -->
+            </colgroup>
+            <thead>
+              <tr class="text-left border-b text-xs cc-thead-sticky">
+                <th class="py-2 px-2 font-semibold text-gray-600">C&#xD3;DIGO</th>
+                <th class="py-2 px-2 font-semibold text-gray-600">Classifica&#xE7;&#xE3;o</th>
+                <th class="py-2 px-2 font-semibold text-gray-600">UNIDADE</th>
+                <th class="py-2 px-2 font-semibold text-gray-600">PILAR</th>
+                <th class="py-2 px-2 font-semibold text-gray-600">NOME DO CENTRO DE CUSTO</th>
+                <th class="py-2 px-2 font-semibold text-gray-600">KPI</th>
+                <th class="py-2 px-2 font-semibold text-gray-600">SETOR LOCAL FISICO</th>
+                <th class="py-2 px-2 font-semibold text-gray-600">RESPONS&#xC1;VEL</th>
+                <th class="py-2 px-2 font-semibold text-gray-600">OBJETIVO DO CENTRO DE CUSTO</th>
+                <th class="py-2 px-2 font-semibold text-gray-600">DIRETORIA</th>
+                <th class="py-2 px-2 font-semibold text-gray-600">STATUS</th>
+                <th class="py-2 px-2 font-semibold text-gray-600">A&#xC7;&#xD5;ES</th>
+              </tr>
+            </thead>
+            <tbody id="cad-cc-body"></tbody>
+          </table>
+        </div>
       </div>
       <!-- Form cadastro CC -->
       <div id="cad-cc-form" class="card hidden">
