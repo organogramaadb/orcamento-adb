@@ -9,6 +9,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-gray-50 font-inter">
@@ -244,26 +245,42 @@
 
     <!-- LAN&#xC7;AR REALIZADO -->
     <div id="screen-realizado" class="screen p-6 hidden">
-      <div class="card mb-5">
-        <h3 class="card-title mb-4">Filtros</h3>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+      <!-- Card: Importar arquivo -->
+      <div class="card mb-4">
+        <div class="flex flex-wrap items-end gap-4">
+          <div class="flex-1 min-w-64">
+            <label class="form-label">Importar Realizado (Excel/CSV)</label>
+            <p class="text-xs text-gray-400 mb-1">Colunas esperadas: COD_CC | NL_CLASS | DATA | VALOR</p>
+            <input type="file" id="real-import-file" accept=".xlsx,.xls,.csv"
+              class="block w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-xs file:font-medium file:bg-red-50 file:text-red-700 hover:file:bg-red-100 cursor-pointer">
+          </div>
+          <button onclick="App.Realizado.importFile()" class="btn-primary">&#x1F4E5; Importar Arquivo</button>
+          <div id="real-import-status" class="text-xs text-gray-500 hidden"></div>
+        </div>
+      </div>
+
+      <!-- Card: Lan&#xE7;amento manual -->
+      <div class="card mb-4">
+        <h3 class="card-title mb-4">Lan&#xE7;amento Manual</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
           <div>
             <label class="form-label">Centro de Custo</label>
-            <select id="real-cc" class="form-select" onchange="App.Realizado.loadTable()"></select>
+            <select id="real-cc" class="form-select w-full"></select>
           </div>
           <div>
             <label class="form-label">Natureza</label>
-            <select id="real-nat" class="form-select" onchange="App.Realizado.loadTable()"></select>
+            <select id="real-nat" class="form-select w-full"></select>
           </div>
           <div>
             <label class="form-label">Aplica&#xE7;&#xE3;o (opcional)</label>
-            <select id="real-apl" class="form-select">
+            <select id="real-apl" class="form-select w-full">
               <option value="">— Nenhuma —</option>
             </select>
           </div>
           <div>
             <label class="form-label">M&#xEA;s</label>
-            <select id="real-mes" class="form-select">
+            <select id="real-mes" class="form-select w-full">
               <option value="1">Janeiro</option><option value="2">Fevereiro</option>
               <option value="3">Mar&#xE7;o</option><option value="4">Abril</option>
               <option value="5">Maio</option><option value="6">Junho</option>
@@ -273,26 +290,62 @@
             </select>
           </div>
         </div>
-        <button onclick="App.Realizado.saveAll()" class="btn-primary mt-4"> Salvar Lan&#xE7;amento</button>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div>
+            <label class="form-label">Valor Realizado (R$)</label>
+            <input type="number" id="real-valor" class="form-input w-full" step="0.01" placeholder="0,00">
+          </div>
+          <div>
+            <label class="form-label">Documento</label>
+            <input type="text" id="real-doc" class="form-input w-full" placeholder="NF-123">
+          </div>
+          <div>
+            <label class="form-label">Descri&#xE7;&#xE3;o</label>
+            <input type="text" id="real-desc" class="form-input w-full" placeholder="Descri&#xE7;&#xE3;o">
+          </div>
+        </div>
+        <button onclick="App.Realizado.saveAll()" class="btn-primary">&#x1F4BE; Salvar Lan&#xE7;amento</button>
       </div>
 
+      <!-- Card: Extrato do realizado -->
       <div class="card">
-        <table class="w-full text-sm">
-          <thead>
-            <tr class="text-left text-gray-500 border-b">
-              <th class="pb-2 font-medium">Valor Realizado (R$)</th>
-              <th class="pb-2 font-medium">Documento</th>
-              <th class="pb-2 font-medium">Descri&#xE7;&#xE3;o</th>
-            </tr>
-          </thead>
-          <tbody id="real-table-body">
-            <tr>
-              <td><input type="number" id="real-valor" class="form-input w-40" step="0.01" placeholder="0,00"></td>
-              <td><input type="text"   id="real-doc"   class="form-input w-32" placeholder="NF-123"></td>
-              <td><input type="text"   id="real-desc"  class="form-input w-64" placeholder="Descri&#xE7;&#xE3;o"></td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="card-title">Extrato — Realizado</h3>
+          <div class="flex gap-2 items-center">
+            <select id="real-filter-exercicio" class="filter-select" onchange="App.Realizado.loadExtrato()">
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+              <option value="2026" selected>2026</option>
+            </select>
+            <select id="real-filter-mes" class="filter-select" onchange="App.Realizado.loadExtrato()">
+              <option value="">Todos os meses</option>
+              <option value="1">Janeiro</option><option value="2">Fevereiro</option>
+              <option value="3">Mar&#xE7;o</option><option value="4">Abril</option>
+              <option value="5">Maio</option><option value="6">Junho</option>
+              <option value="7">Julho</option><option value="8">Agosto</option>
+              <option value="9">Setembro</option><option value="10">Outubro</option>
+              <option value="11">Novembro</option><option value="12">Dezembro</option>
+            </select>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-gray-500 border-b text-xs">
+                <th class="pb-2 font-medium">M&#xEA;s</th>
+                <th class="pb-2 font-medium">Centro de Custo</th>
+                <th class="pb-2 font-medium">Natureza</th>
+                <th class="pb-2 font-medium text-right">Valor Realizado</th>
+                <th class="pb-2 font-medium">Documento</th>
+                <th class="pb-2 font-medium">Fonte</th>
+              </tr>
+            </thead>
+            <tbody id="real-extrato-body">
+              <tr><td colspan="6" class="py-4 text-center text-gray-400 text-xs">Selecione um exerc&#xED;cio para ver o extrato</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p id="real-extrato-total" class="text-right text-sm font-semibold text-gray-700 mt-3 pt-2 border-t"></p>
       </div>
     </div>
 

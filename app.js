@@ -662,8 +662,8 @@ App.Realizado = {
     App.fillCCSelect('real-cc');
     App.fillNatSelect('real-nat');
     App.fillAplSelect('real-apl');
-    // M\u00eas atual
     document.getElementById('real-mes').value = App.state.mes;
+    App.Realizado.loadExtrato();
   },
 
   async saveAll() {
@@ -675,22 +675,99 @@ App.Realizado = {
     const doc   = document.getElementById('real-doc').value;
     const desc  = document.getElementById('real-desc').value;
     const exercicio = App.state.exercicio;
-
     if (!ccId || !natId || !valor) { App.toast('Preencha CC, Natureza e Valor.', 'error'); return; }
-
     const { error } = await sb.from('realizado').insert({
       exercicio, mes, centro_custo_id: ccId, natureza_id: natId,
       aplicacao_id: aplId ? parseInt(aplId) : null,
       valor_realizado: valor, documento: doc, descricao: desc,
-      criado_por: App.state.user?.email,
+      fonte: 'MANUAL', criado_por: App.state.user?.email,
     });
-    if (error) App.toast('Erro: ' + error.message, 'error');
-    else {
-      App.toast('Lan\u00e7amento registrado!', 'success');
-      document.getElementById('real-valor').value = '';
-      document.getElementById('real-doc').value   = '';
-      document.getElementById('real-desc').value  = '';
+    if (error) { App.toast('Erro: ' + error.message, 'error'); return; }
+    App.toast('Lan\u00e7amento registrado!', 'success');
+    document.getElementById('real-valor').value = '';
+    document.getElementById('real-doc').value   = '';
+    document.getElementById('real-desc').value  = '';
+    App.Realizado.loadExtrato();
+  },
+
+  async loadExtrato() {
+    const exercicio = parseInt(document.getElementById('real-filter-exercicio')?.value || App.state.exercicio);
+    const mes       = parseInt(document.getElementById('real-filter-mes')?.value || 0);
+    const p         = App.state.perfil;
+    let q = sb.from('realizado')
+      .select('mes,valor_realizado,documento,fonte,centros_custo(codigo,nome),naturezas(nl_classificacao,descricao)')
+      .eq('exercicio', exercicio).order('mes').order('criado_em', { ascending: false }).limit(300);
+    if (mes > 0) q = q.eq('mes', mes);
+    if (p.nivel_acesso === 'GESTOR') q = q.eq('centro_custo_id', p.centro_custo_id);
+    const { data } = await q;
+    const tbody = document.getElementById('real-extrato-body');
+    if (!tbody) return;
+    if (!data?.length) {
+      tbody.innerHTML = '<tr><td colspan="6" class="py-4 text-center text-gray-400 text-xs">Nenhum lan\u00e7amento encontrado.</td></tr>';
+      document.getElementById('real-extrato-total').textContent = '';
+      return;
     }
+    const total = data.reduce((s, r) => s + parseFloat(r.valor_realizado || 0), 0);
+    const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+    tbody.innerHTML = data.map(r => `
+      <tr class="border-b text-xs hover:bg-gray-50">
+        <td class="py-1.5 pr-2">${meses[(r.mes||1)-1]}</td>
+        <td class="py-1.5 pr-2 text-gray-600">[${r.centros_custo?.codigo||''}] ${r.centros_custo?.nome||''}</td>
+        <td class="py-1.5 pr-2 text-gray-500">${r.naturezas?.nl_classificacao||''} ${r.naturezas?.descricao||''}</td>
+        <td class="py-1.5 pr-2 text-right font-semibold ${parseFloat(r.valor_realizado)>=0?'text-gray-800':'text-red-600'}">${App.brl(r.valor_realizado)}</td>
+        <td class="py-1.5 pr-2 text-gray-400">${r.documento||''}</td>
+        <td class="py-1.5 pr-2"><span class="badge ${r.fonte==='IMPORT'?'badge-diretoria':r.fonte==='ERP'?'badge-master':'badge-gestor'}">${r.fonte||'MANUAL'}</span></td>
+      </tr>`).join('');
+    document.getElementById('real-extrato-total').textContent = 'Total: ' + App.brl(total) + ' (' + data.length + ' registros)';
+  },
+
+  async importFile() {
+    const fileInput = document.getElementById('real-import-file');
+    const statusEl  = document.getElementById('real-import-status');
+    if (!fileInput?.files?.length) { App.toast('Selecione um arquivo primeiro.', 'error'); return; }
+    const file = fileInput.files[0];
+    statusEl.textContent = 'Lendo arquivo...'; statusEl.classList.remove('hidden');
+    try {
+      const buf  = await file.arrayBuffer();
+      const wb   = XLSX.read(buf, { type: 'array', cellDates: true });
+      const ws   = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+      const header = rows[0].map(h => String(h).trim().toUpperCase());
+      const iCC   = header.findIndex(h => h.includes('COD'));
+      const iNL   = header.findIndex(h => h.startsWith('NL'));
+      const iData = header.findIndex(h => h.includes('DATA') || h.includes('DATE'));
+      const iVal  = header.findIndex(h => h.includes('VALOR') || h.includes('VALUE'));
+      if ([iCC,iNL,iData,iVal].includes(-1)) { App.toast('Colunas n\u00e3o encontradas: COD_CC, NL_CLASS, DATA, VALOR', 'error'); statusEl.classList.add('hidden'); return; }
+      const grouped = {};
+      rows.slice(1).forEach(r => {
+        const nl = String(r[iNL]||'').trim(); if (!nl) return;
+        const valor = parseFloat(String(r[iVal]).replace(',','.') || 0); if (!valor) return;
+        let mes = 1, exercicio = new Date().getFullYear();
+        try { const d = r[iData] instanceof Date ? r[iData] : new Date(r[iData]); if (!isNaN(d)){mes=d.getMonth()+1;exercicio=d.getFullYear();} } catch(e){}
+        const codCC = String(r[iCC]||'').trim();
+        const key = `${codCC}|${nl}|${exercicio}|${mes}`;
+        grouped[key] = (grouped[key]||0) + valor;
+      });
+      const entries = Object.entries(grouped);
+      statusEl.textContent = 'Enviando ' + entries.length + ' registros...';
+      let ok=0, skip=0;
+      const bs = 50;
+      for (let i=0; i<entries.length; i+=bs) {
+        const batch = entries.slice(i,i+bs).map(([key,val]) => {
+          const [codCC,nl,exercicio,mes] = key.split('|');
+          const cc  = App.cache.centros.find(c => c.codigo === String(parseInt(codCC)));
+          const nat = App.cache.naturezas.find(n => n.nl_classificacao === nl);
+          if (!nat) { skip++; return null; }
+          return { exercicio:parseInt(exercicio), mes:parseInt(mes), centro_custo_id:cc?.id||null, natureza_id:nat.id, valor_realizado:Math.round(val*100)/100, fonte:'IMPORT', criado_por:App.state.user?.email };
+        }).filter(Boolean);
+        if (batch.length) { await sb.from('realizado').insert(batch); ok += batch.length; }
+        statusEl.textContent = ok + ' de ' + entries.length + ' inseridos...';
+      }
+      App.toast('Import: ' + ok + ' registros inseridos' + (skip?' ('+skip+' naturezas sem match)':''), 'success');
+      fileInput.value = '';
+      App.Realizado.loadExtrato();
+    } catch(e) { App.toast('Erro: ' + e.message, 'error'); }
+    statusEl.classList.add('hidden');
   },
 };
 
